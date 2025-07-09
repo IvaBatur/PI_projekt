@@ -4,7 +4,7 @@
 
 **Fakultet:** Fakultet informatike u Puli  
 **Kolegij:** Programsko inženjerstvo  
-**Nastavni profesor:** Nikola Tanković  
+**Nastavni profesor:** doc. dr. sc. Nikola Tanković
 **Student:** Iva Batur
 
 ## Opis projekta
