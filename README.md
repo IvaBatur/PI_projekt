@@ -3,8 +3,11 @@
 # 3,2,1 BOX 
 
 **Fakultet:** Fakultet informatike u Puli  
+
 **Kolegij:** Programsko inženjerstvo  
+
 **Nastavni profesor:** doc. dr. sc. Nikola Tanković
+
 **Student:** Iva Batur
 
 ## Opis projekta
