@@ -2,11 +2,11 @@
 
 # 3,2,1 BOX 
 
-**Fakultet:** Fakultet informatike u Puli  
+**Fakultet:** Fakultet informatike u Puli  (https://fipu.unipu.hr)
 
-**Kolegij:** Programsko inženjerstvo  
+**Kolegij:** Programsko inženjerstvo (ntankovic.unipu.hr/pi)
 
-**Nastavni profesor:** doc. dr. sc. Nikola Tanković
+**Mentor:** doc. dr. sc. Nikola Tanković (ntankovic.unipu.hr) 
 
 **Student:** Iva Batur
 
@@ -31,6 +31,6 @@ Backend pruža REST API s podrškom za prijavu i autorizaciju uloga (trener, čl
 
 Gost može pristupiti aplikaciji bez prijave odabirom opcije *Continue as Guest*.
 
-
+> Prototip aplikacije: https://www.figma.com/proto/02wwDnkpBpzyDkWm041zox/Untitled?node-id=0-1&t=x1kvo4e0jsMlR14v-1
 
 > Za pokretanje aplikacije, prvo pokrenuti backend server (`node index.js`) i zatim frontend (`npm run serve`).
