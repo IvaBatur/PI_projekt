@@ -50,6 +50,7 @@ export default {
         return [
           { path: "/coach/about", label: "Povijest kluba", emoji: "📖" },
           { path: "/coach/members", label: "Članovi", emoji: "👥" },
+          { path: "/coach/coaches", label: "Treneri", emoji: "🧑‍🏫" },
           { path: "/coach/tournaments", label: "Turniri", emoji: "🏆" },
           { path: "/coach/notices", label: "Obavijesti", emoji: "📢" },
           { path: "/coach/gallery", label: "Galerija", emoji: "🖼️" },
