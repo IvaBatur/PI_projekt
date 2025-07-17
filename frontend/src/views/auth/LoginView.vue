@@ -74,8 +74,8 @@ async handleLogin() {
 
 .login-wrapper { background-color: #b80000; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; display: flex; justify-content: center; align-items: center; }
 .login-box { background: transparent; color: white; padding: 2rem; border-radius: 12px; width: 90%; max-width: 400px; text-align: center; }
-.logo { width: 100px; margin-bottom: 1rem; right: 10; }
-.slogan { font-family: 'Brush Script MT', cursive; font-size: 24px; margin-bottom: 2rem; }
+.logo { width: 170px; margin-bottom: 1rem; display: block; margin-left: auto; margin-right: auto;border-radius: 15px; }
+.slogan { font-family: 'Brush Script MT', cursive; font-size: 30px; margin-bottom: 2rem; }
 form { display: flex; flex-direction: column; }
 input { padding: 10px; margin-bottom: 1rem; border: none; border-bottom: 2px solid white; background: transparent; color: white; font-size: 16px; outline: none; }
 label { text-align: left; margin-bottom: 0.2rem; font-weight: bold; }
