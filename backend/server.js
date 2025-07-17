@@ -3,7 +3,6 @@ const cors = require('cors')
 const fs = require('fs')
 const path = require('path')
 const multer = require('multer');
-
 const app = express()
 const PORT = 3000
 
@@ -36,22 +35,37 @@ const writeNotices = (data) => {
 app.post('/api/login', (req, res) => {
   const { email, password } = req.body
   if (email === 'trener@box.com' && password === 'tajna123') {
-    return res.json({ token: 'mocktoken-trener', role: 'coach' })
+    return res.json({ token: 'mocktoken-trener', role: 'coach' , email })
   }
   if (email === 'clan@box.com' && password === 'lozinka321') {
-    return res.json({ token: 'mocktoken-clan', role: 'member' })
+    return res.json({ token: 'mocktoken-clan', role: 'member' , email })
   }
   return res.status(401).json({ message: 'Neispravni podaci.' })
-})
+});
 
 app.post('/api/gallery', upload.single('image'), (req, res) => {
   res.status(201).json({ filename: req.file.filename });
 });
 
+app.get('/api/gallery', (req, res) => {
+  const dirPath = path.join(__dirname, 'uploads');
+  fs.readdir(dirPath, (err, files) => {
+    if (err) {
+      console.error(' Greška pri čitanju uploads direktorija:', err);
+      return res.status(500).json({ message: 'Greška na serveru' });
+    }
+
+    const imageUrls = files.map(file => `/uploads/${file}`);
+    res.json(imageUrls);
+  });
+});
+
+
 app.get('/api/notices', (req, res) => {
   const notices = readNotices()
   res.json(notices)
 })
+
 
 app.post('/api/notices', (req, res) => {
   const notices = readNotices()
@@ -64,6 +78,7 @@ app.post('/api/notices', (req, res) => {
   writeNotices(notices)
   res.status(201).json(nova)
 })
+
 
 app.put('/api/notices/:id', (req, res) => {
   const notices = readNotices()
@@ -97,10 +112,12 @@ const writeMembers = (data) => {
   fs.writeFileSync(MEMBERS_FILE, JSON.stringify(data, null, 2), 'utf-8');
 };
 
+
 app.get('/api/members', (req, res) => {
   const members = readMembers();
   res.json(members);
 });
+
 
 app.post('/api/members', (req, res) => {
   const members = readMembers();
@@ -127,6 +144,59 @@ app.delete('/api/members/:id', (req, res) => {
   writeMembers(members);
   res.status(204).end();
 });
+
+const TOURNAMENTS_FILE = path.join(__dirname, 'tournaments.json');
+
+const readTournaments = () => {
+  if (!fs.existsSync(TOURNAMENTS_FILE)) return [];
+  const data = fs.readFileSync(TOURNAMENTS_FILE, 'utf-8');
+  return JSON.parse(data);
+};
+
+const writeTournaments = (data) => {
+  fs.writeFileSync(TOURNAMENTS_FILE, JSON.stringify(data, null, 2), 'utf-8');
+};
+
+app.get('/api/tournaments', (req, res) => {
+  const tournaments = readTournaments();
+  res.json(tournaments);
+});
+
+app.post('/api/tournaments', (req, res) => {
+  const tournaments = readTournaments();
+  const novi = { id: Date.now(), prijavljeni: [], ...req.body };
+  tournaments.push(novi);
+  writeTournaments(tournaments);
+  res.status(201).json(novi);
+});
+
+app.put('/api/tournaments/:id/prijavi', (req, res) => {
+  const tournaments = readTournaments();
+  const id = parseInt(req.params.id);
+  const clan = req.body.clan;
+
+  if (!clan) {
+    return res.status(400).json({ message: 'Nedostaje ime člana' });
+  }
+
+  const turnir = tournaments.find(t => t.id === id);
+  if (!turnir) {
+    return res.status(404).json({ message: 'Turnir nije pronađen' });
+  }
+
+  if (!turnir.prijavljeni) {
+    turnir.prijavljeni = [];
+  }
+
+  if (!turnir.prijavljeni.includes(clan)) {
+    turnir.prijavljeni.push(clan);
+  }
+
+  writeTournaments(tournaments);
+  res.json(turnir);
+});
+
+
 
 app.listen(PORT, () => {
   console.log(` Backend radi na http://localhost:${PORT}`)
