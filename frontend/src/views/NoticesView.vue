@@ -114,7 +114,7 @@ export default {
       this.obavijesti = this.obavijesti.filter(o => o.id !== id);
     },
     urediObavijest(obavijest) {
-      this.novaObavijest = { naslov: obavijest.naslov, sadrzaj: obavijest.sadrzaj, javno: obavijest.javno };
+      this.novaObavijest = { naslov: obavijest.naslov, sadrzaj: obavijest.sadrzaj, javno: obavijest.javno,  };
       this.uredujeId = obavijest.id;
     },
   
