@@ -58,7 +58,6 @@ export default {
         return [
           { path: "/member/about", label: "Povijest kluba", emoji: "📖" },
           { path: "/member/dashboard", label: "Moj profil", emoji: "🙋‍♂️" },
-          { path: "/member/members", label: "Članovi", emoji: "👥" },
           { path: "/member/coaches", label: "Treneri", emoji: "🧑‍🏫" },
           { path: "/member/tournaments", label: "Turniri", emoji: "🏆" },
           { path: "/member/notices", label: "Obavijesti", emoji: "📢" },
@@ -67,7 +66,6 @@ export default {
       } else {
         return [
           { path: "/guest/about", label: "Povijest kluba", emoji: "📖" },
-          { path: "/guest/members", label: "Članovi", emoji: "👥" },
           { path: "/guest/coaches", label: "Treneri", emoji: "🧑‍🏫" },
           { path: "/guest/tournaments", label: "Turniri", emoji: "🏆" },
           { path: "/guest/gallery", label: "Galerija", emoji: "🖼️" },
