@@ -127,22 +127,20 @@ router.beforeEach((to, from, next) => {
 
   if (to.meta.role && userRole !== to.meta.role) {
     return next('/home')
-  }
+  },
   {
-  path: '/coach/treneri',
-  name: 'Coach',
+  path: '/coach/coaches',
+  name: 'CoachViewCoach',
   component: () => import('@/views/coach/CoachView.vue')
 },
 {
-
-  path: '/member/treneri',
-  name: 'Coach',
+  path: '/member/coaches',
+  name: 'CoachViewMember',
   component: () => import('@/views/coach/CoachView.vue')
 },
 {
-
-  path: '/guest/treneri',
-  name: 'Coach',
+  path: '/guest/coaches',
+  name: 'CoachViewGuest',
   component: () => import('@/views/coach/CoachView.vue')
 },
 
