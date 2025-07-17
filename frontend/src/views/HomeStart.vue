@@ -106,6 +106,8 @@ export default {
 };
 </script>
 
+</script>
+
 <style scoped>
 .home-wrapper {
   background: url('@/assets/pozadina.jpg') no-repeat center center fixed;
@@ -118,73 +120,79 @@ export default {
 }
 
 .overlay {
-  background-color: rgba(0, 0, 0, 0.7);
+  background-color: rgba(0, 0, 0, 0.75);
   padding: 2rem;
   border-radius: 20px;
   color: white;
   text-align: center;
   max-width: 900px;
   width: 95%;
+  box-shadow: 0 0 15px rgba(0,0,0,0.5);
 }
 
 .app-title {
   font-size: 3rem;
   margin-bottom: 0.5rem;
   font-weight: bold;
+  letter-spacing: 1px;
+  text-shadow: 2px 2px 4px rgba(0,0,0,0.7);
 }
 
 .slogan {
-  font-size: 1.2rem;
-  margin-bottom: 1.5rem;
+  font-size: 1.4rem;
+  margin-bottom: 3rem; /* puno više prostora */
   font-style: italic;
+  color: #ddd;
 }
 
 .user-greeting {
-  margin-bottom: 1.5rem;
+  margin-bottom: 2rem;
   font-size: 1.2rem;
 }
 
 .menu-box {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-  gap: 1.2rem;
+  gap: 1.5rem;
 }
 
 .menu-item {
   background-color: #1e2a3a;
-  padding: 1rem;
+  padding: 1.2rem;
   border-radius: 15px;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  transition: transform 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease;
   cursor: pointer;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.3);
 }
 
 .menu-item:hover {
-  transform: scale(1.05);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
-  background-color: #2f3f56;
+  background-color: #344966;
+  transform: translateY(-8px) scale(1.08);
+  box-shadow: 0 12px 20px rgba(0,0,0,0.5);
 }
 
 .menu-item .icon {
-  font-size: 2.2rem;
+  font-size: 2.5rem;
   margin-bottom: 0.5rem;
   display: block;
-  transition: transform 0.3s ease, color 0.3s ease;
+  transition: transform 0.3s ease;
 }
 
 .menu-item:hover .icon {
-  transform: scale(1.2);
-  color: #ffcc00; /* ili druga živa boja */
+  transform: scale(1.2) rotate(-3deg);
 }
 
 .menu-item .label {
   font-weight: bold;
   font-size: 1rem;
+  margin-top: 0.3rem;
 }
 
 .menu-item a {
   color: white;
   text-decoration: none;
 }
+
 
 </style>
 
