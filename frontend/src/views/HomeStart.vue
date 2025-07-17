@@ -116,6 +116,7 @@ export default {
   justify-content: center;
   align-items: center;
 }
+
 .overlay {
   background-color: rgba(0, 0, 0, 0.7);
   padding: 2rem;
@@ -125,44 +126,65 @@ export default {
   max-width: 900px;
   width: 95%;
 }
+
 .app-title {
   font-size: 3rem;
   margin-bottom: 0.5rem;
   font-weight: bold;
 }
+
 .slogan {
   font-size: 1.2rem;
   margin-bottom: 1.5rem;
   font-style: italic;
 }
+
 .user-greeting {
   margin-bottom: 1.5rem;
   font-size: 1.2rem;
 }
+
 .menu-box {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
   gap: 1.2rem;
 }
+
 .menu-item {
   background-color: #1e2a3a;
   padding: 1rem;
-  border-radius: 12px;
-  transition: 0.3s ease;
+  border-radius: 15px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  cursor: pointer;
 }
+
 .menu-item:hover {
+  transform: scale(1.05);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
   background-color: #2f3f56;
 }
+
 .menu-item .icon {
-  font-size: 2rem;
+  font-size: 2.2rem;
   margin-bottom: 0.5rem;
+  display: block;
+  transition: transform 0.3s ease, color 0.3s ease;
 }
+
+.menu-item:hover .icon {
+  transform: scale(1.2);
+  color: #ffcc00; /* ili druga živa boja */
+}
+
 .menu-item .label {
   font-weight: bold;
   font-size: 1rem;
 }
+
 .menu-item a {
   color: white;
   text-decoration: none;
 }
+
 </style>
+
