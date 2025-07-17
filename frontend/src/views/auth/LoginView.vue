@@ -85,5 +85,16 @@ label { text-align: left; margin-bottom: 0.2rem; font-weight: bold; }
 .links a { color: white; text-decoration: underline; display: block; margin: 0.5rem 0; }
 .links span { display: block; margin-top: 0.5rem; }
 .error-msg { color: yellow; margin-top: 1rem; }
+.login-btn,.guest-btn { transition: transform 0.2s ease, box-shadow 0.2s ease;}
+.login-btn:hover,.guest-btn:hover {transform: translateY(-2px);box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);}
+.logo {
+  animation: pulse 2s infinite;
+}
+@keyframes pulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+  100% { transform: scale(1); }
+}
+
 </style>
 
