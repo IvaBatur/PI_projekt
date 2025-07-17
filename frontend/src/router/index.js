@@ -128,6 +128,24 @@ router.beforeEach((to, from, next) => {
   if (to.meta.role && userRole !== to.meta.role) {
     return next('/home')
   }
+  {
+  path: '/coach/treneri',
+  name: 'Coach',
+  component: () => import('@/views/coach/CoachView.vue')
+},
+{
+
+  path: '/member/treneri',
+  name: 'Coach',
+  component: () => import('@/views/coach/CoachView.vue')
+},
+{
+
+  path: '/guest/treneri',
+  name: 'Coach',
+  component: () => import('@/views/coach/CoachView.vue')
+},
+
 
   next()
 })
