@@ -24,7 +24,7 @@ export default {
       formData.append('image', this.selectedFile);
 
       try {
-        const res = await fetch('http://localhost:3000/api/gallery', {
+        const res = await fetch('https://backend-lrvc.onrender.com/api/gallery', {
           method: 'POST',
           body: formData
         });
