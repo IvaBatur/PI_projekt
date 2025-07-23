@@ -98,7 +98,7 @@ export default {
   formData.append("image", this.file);
 
   try {
-    await axios.post("http://localhost:3000/api/coaches", formData);
+    await axios.post("https://backend-lrvc.onrender.com/api/coaches", formData);
     this.noviTrener = { ime: "", opis: "", phone: "", email: "" };
     this.file = null;
     this.fetchCoaches();
@@ -113,7 +113,7 @@ export default {
     },
       getImageUrl(path) {
     if (!path) return '';
-    return `http://localhost:3000${path}`;
+    return `https://backend-lrvc.onrender.com${path}`;
   }
   }
 };
