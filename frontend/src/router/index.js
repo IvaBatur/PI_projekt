@@ -12,7 +12,28 @@ const routes = [
     path: '/home',
     name: 'HomeStart',
     component: () => import('../views/HomeStart.vue'),
-    meta: { requiresAuth: false }
+    meta: { requiresAuth: false },
+    props: true
+  },
+  {
+    path: '/coach/coaches',
+    name: 'CoachViewCoach',
+    component: () => import('@/views/coach/CoachView.vue'),
+    meta: { requiresAuth: true, role: 'coach' },
+    props: true
+  },
+  {
+    path: '/member/coaches',
+    name: 'CoachViewMember',
+    component: () => import('@/views/coach/CoachView.vue'),
+    meta: { requiresAuth: true, role: 'member' },
+    props: true
+  },
+  {
+    path: '/guest/coaches',
+    name: 'CoachViewGuest',
+    component: () => import('@/views/coach/CoachView.vue'),
+    props: true
   },
   {
     path: '/coach/members',
@@ -80,32 +101,37 @@ const routes = [
   {
     path: '/tournaments',
     name: 'Tournaments',
-  component: () => import('../views/common/TournamentsView.vue')
-},
-{
-  path: '/coach/tournaments',
-  name: 'CoachTournaments',
-  component: () => import('../views/common/TournamentsView.vue'),
-  meta: { requiresAuth: true, role: 'coach' }
-},
-{
-  path: '/member/tournaments',
-  name: 'MemberTournaments',
-  component: () => import('../views/common/TournamentsView.vue'),
-  meta: { requiresAuth: true, role: 'member' }
-},
-{
-  path: '/guest/tournaments',
-  name: 'GuestTournaments',
-  component: () => import('../views/common/TournamentsView.vue')
-},
-{
-  path: '/coach/tournaments/create',
-  name: 'CreateTournament',
-  component: () => import('../views/coach/CreateTournament.vue'),
-  meta: { requiresAuth: true, role: 'coach' }
-},
-
+    component: () => import('../views/common/TournamentsView.vue')
+  },
+  {
+    path: '/coach/tournaments',
+    name: 'CoachTournaments',
+    component: () => import('../views/common/TournamentsView.vue'),
+    meta: { requiresAuth: true, role: 'coach' }
+  },
+  {
+    path: '/member/tournaments',
+    name: 'MemberTournaments',
+    component: () => import('../views/common/TournamentsView.vue'),
+    meta: { requiresAuth: true, role: 'member' }
+  },
+  {
+    path: '/guest/tournaments',
+    name: 'GuestTournaments',
+    component: () => import('../views/common/TournamentsView.vue')
+  },
+  {
+    path: '/coach/tournaments/create',
+    name: 'CreateTournament',
+    component: () => import('../views/coach/CreateTournament.vue'),
+    meta: { requiresAuth: true, role: 'coach' }
+  },
+  {
+    path: '/member/dashboard',
+    name: 'MemberDashboard',
+    component: () => import('../views/member/ProfileView.vue'),
+    meta: { requiresAuth: true, role: 'member' }
+  },
   {
     path: '/:pathMatch(.*)*',
     redirect: '/home'
@@ -127,24 +153,9 @@ router.beforeEach((to, from, next) => {
 
   if (to.meta.role && userRole !== to.meta.role) {
     return next('/home')
-  },
-  {
-  path: '/coach/coaches',
-  name: 'CoachViewCoach',
-  component: () => import('@/views/coach/CoachView.vue')
-},
-{
-  path: '/member/coaches',
-  name: 'CoachViewMember',
-  component: () => import('@/views/coach/CoachView.vue')
-},
-{
-  path: '/guest/coaches',
-  name: 'CoachViewGuest',
-  component: () => import('@/views/coach/CoachView.vue')
-},
-
+  }
 
   next()
 })
+
 export default router
