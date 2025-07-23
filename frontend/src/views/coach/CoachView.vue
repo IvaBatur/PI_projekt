@@ -59,7 +59,7 @@ export default {
   },
   methods: {
     fetchCoaches() {
-      axios.get("http://localhost:3000/api/coaches").then(res => {
+      axios.get("https://backend-lrvc.onrender.com/api/coaches").then(res => {
         this.treneri = res.data;
       });
     },
@@ -107,7 +107,7 @@ export default {
   }
 },
     deleteCoach(id) {
-      axios.delete(`http://localhost:3000/api/coaches/${id}`).then(() => {
+      axios.delete(`https://backend-lrvc.onrender.com/api/coaches/${id}`).then(() => {
         this.fetchCoaches();
       });
     },
