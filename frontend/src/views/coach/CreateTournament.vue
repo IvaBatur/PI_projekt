@@ -43,7 +43,7 @@ export default {
   methods: {
     async submitForm() {
       try {
-        const res = await fetch('http://localhost:3000/api/tournaments', {
+        const res = await fetch('https://backend-lrvc.onrender.com/api/tournaments', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(this.form)
