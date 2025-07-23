@@ -79,7 +79,7 @@ export default {
     if (this.userRole !== "member") return;
 
     try {
-      const res = await fetch('http://localhost:3000/api/notices');
+      const res = await fetch('https://backend-lrvc.onrender.com/api/notices');
       if (!res.ok) throw new Error('Greška pri dohvaćanju obavijesti');
       const obavijesti = await res.json();
 
