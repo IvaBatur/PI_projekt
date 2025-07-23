@@ -42,7 +42,7 @@ export default {
 
     try {
       
-      const res = await fetch(`http://localhost:3000/api/notices`);
+      const res = await fetch(`https://backend-lrvc.onrender.com/api/notices`);
       if (!res.ok) throw new Error('Greška pri dohvaćanju obavijesti');
       const notices = await res.json();
 
