@@ -34,7 +34,7 @@
       📭 Nema slika za prikaz.
     </p>
 
-    <!-- Lightbox -->
+  
     <div
       v-if="lightboxImg"
       class="fixed inset-0 bg-black/90 flex items-center justify-center z-50"
@@ -100,9 +100,9 @@ export default {
     async fetchImages() {
       this.loading = true;
       try {
-        const response = await fetch('http://localhost:3000/api/gallery');
+        const response = await fetch('https://backend-lrvc.onrender.com/api/gallery');
         const data = await response.json();
-        this.images = data.map(img => `http://localhost:3000${img}`);
+        this.images = data.map(img => `https://backend-lrvc.onrender.com${img}`);
       } catch (err) {
         console.error('❌ Greška pri dohvaćanju slika:', err);
       } finally {
