@@ -71,13 +71,13 @@ export default {
   },
   methods: {
     async dohvatiClanove() {
-      const res = await fetch('http://localhost:3000/api/members');
+      const res = await fetch('https://backend-lrvc.onrender.com/api/members');
       this.clanovi = await res.json();
     },
     async dodajClana() {
       if (this.editId !== null) {
        
-        const res = await fetch(`http://localhost:3000/api/members/${this.editId}`, {
+        const res = await fetch(`https://backend-lrvc.onrender.com/api/members/${this.editId}`, {
           method: 'PUT',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(this.noviClan)
@@ -88,7 +88,7 @@ export default {
         this.editId = null;
       } else {
        
-        const res = await fetch('http://localhost:3000/api/members', {
+        const res = await fetch('https://backend-lrvc.onrender.com/api/members', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(this.noviClan)
@@ -99,7 +99,7 @@ export default {
       this.resetForma();
     },
     async obrisiClana(id) {
-      await fetch(`http://localhost:3000/api/members/${id}`, {
+      await fetch(`https://backend-lrvc.onrender.com/api/members/${id}`, {
         method: 'DELETE'
       });
       this.clanovi = this.clanovi.filter(c => c.id !== id);
