@@ -76,7 +76,7 @@ export default {
   methods: {
     async dohvatiObavijesti() {
       try {
-        const res = await fetch('http://localhost:3000/api/notices');
+        const res = await fetch('https://backend-lrvc.onrender.com/api/notices');
         this.obavijesti = await res.json();
       } catch (err) {
         console.error(' Greška pri dohvaćanju obavijesti:', err);
@@ -95,7 +95,7 @@ export default {
             ...this.novaObavijest,
             datum: new Date().toISOString().split('T')[0]
           };
-          const res = await fetch('http://localhost:3000/api/notices', {
+          const res = await fetch('https://backend-lrvc.onrender.com/api/notices', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(novi)
