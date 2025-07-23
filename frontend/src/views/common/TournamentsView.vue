@@ -79,7 +79,7 @@ export default {
    
        async fetchTournaments() {
   try {
-    const res = await fetch('http://localhost:3000/api/tournaments');
+    const res = await fetch('https://backend-lrvc.onrender.com/api/tournaments');
     const data = await res.json();
 
     console.log('Dohvaceni turniri:', data);
@@ -97,7 +97,7 @@ export default {
 },
     async addTournament() {
       try {
-        const res = await fetch('http://localhost:3000/api/tournaments', {
+        const res = await fetch('https://backend-lrvc.onrender.com/api/tournaments', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(this.newTournament)
@@ -114,7 +114,7 @@ export default {
     const clanEmail = this.userEmail;
     console.log('Prijavljujem kao:', clanEmail);
 
-    const res = await fetch(`http://localhost:3000/api/tournaments/${turnirId}/prijavi`, {
+    const res = await fetch(`https://backend-lrvc.onrender.com/api/tournaments/${turnirId}/prijavi`, {
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ clan: clanEmail })
