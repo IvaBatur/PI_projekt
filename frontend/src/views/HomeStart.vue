@@ -107,8 +107,6 @@ export default {
 };
 </script>
 
-</script>
-
 <style scoped>
 .home-wrapper {
   background: url('@/assets/pozadina.jpg') no-repeat center center fixed;
