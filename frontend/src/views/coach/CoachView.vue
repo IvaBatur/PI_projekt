@@ -111,10 +111,9 @@ export default {
         this.fetchCoaches();
       });
     },
-      getImageUrl(path) {
-    if (!path) return '';
-    return `https://backend-lrvc.onrender.com${path}`;
-  }
+   getImageUrl(path) {
+  return path || '';
+}
   }
 };
 </script>
