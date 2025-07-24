@@ -4,8 +4,20 @@ const fs = require('fs');
 const path = require('path');
 const multer = require('multer');
 
+require('dotenv').config();
+
 const app = express();
-const PORT = 3000;
+const PORT = process.env.PORT || 3000;
+
+require('dotenv').config();
+const cloudinary = require('cloudinary').v2;
+
+cloudinary.config({
+  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+  api_key: process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_API_SECRET
+});
+
 
 app.use(cors());
 app.use(express.json());
@@ -149,11 +161,15 @@ app.put('/api/tournaments/:id/prijavi', (req, res) => {
 
 app.get('/api/coaches', (req, res) => res.json(readJSON(COACHES_FILE)));
 
-app.post('/api/coaches', coachUpload.single('image'), (req, res) => {
+app.post('/api/coaches', coachUpload.single('image'), async (req, res) => {
   const { ime, opis, phone, email } = req.body;
   if (!ime || !opis || !phone || !email || !req.file) {
     return res.status(400).json({ message: 'Sva polja i slika su obavezni' });
   }
+
+   const result = await cloudinary.uploader.upload(req.file.path, {
+    folder: 'coaches'
+  });
   const coaches = readJSON(COACHES_FILE);
   const novi = {
     id: Date.now(),
@@ -161,16 +177,26 @@ app.post('/api/coaches', coachUpload.single('image'), (req, res) => {
     opis,
     phone,
     email,
-    slika: `/uploads/coaches/${req.file.filename}`
+      slika: result.secure_url,
+    public_id: result.public_id
   };
+
   coaches.push(novi);
   writeJSON(COACHES_FILE, coaches);
   res.status(201).json(novi);
 });
 
-app.delete('/api/coaches/:id', (req, res) => {
-  const coaches = readJSON(COACHES_FILE).filter(c => c.id !== parseInt(req.params.id));
-  writeJSON(COACHES_FILE, coaches);
+app.delete('/api/coaches/:id', async (req, res) => {
+  const id = parseInt(req.params.id);
+  const coaches = readJSON(COACHES_FILE);
+  const coach = coaches.find(c => c.id === id);
+
+  if (coach && coach.public_id) {
+    await cloudinary.uploader.destroy(coach.public_id);
+  }
+
+  const noviCoaches = coaches.filter(c => c.id !== id);
+  writeJSON(COACHES_FILE, noviCoaches);
   res.status(204).end();
 });
 
