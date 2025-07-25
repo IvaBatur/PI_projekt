@@ -56,17 +56,21 @@ export default {
   },
   computed: {
     ...mapGetters({
-      userRole: "auth/userRole" 
+      userRole: "auth/userRole"
     })
   },
   created() {
     this.fetchCoaches();
   },
   methods: {
-    fetchCoaches() {
-      axios.get("https://backend-lrvc.onrender.com/api/coaches").then((res) => {
+    async fetchCoaches() {
+      try {
+        const res = await axios.get("https://backend-lrvc.onrender.com/api/coaches");
         this.treneri = res.data;
-      });
+      } catch (err) {
+        console.error("Greška pri dohvaćanju trenera:", err);
+        this.error = "Ne mogu dohvatiti listu trenera.";
+      }
     },
     onFileChange(e) {
       this.file = e.target.files[0];
@@ -110,17 +114,23 @@ export default {
 
       try {
         await axios.post("https://backend-lrvc.onrender.com/api/coaches", formData);
+      
         this.noviTrener = { ime: "", opis: "", phone: "", email: "" };
         this.file = null;
-        this.fetchCoaches();
-      } catch {
+        await this.fetchCoaches();
+      } catch (err) {
+        console.error("Greška prilikom dodavanja trenera:", err);
         this.error = "Greška prilikom dodavanja trenera.";
       }
     },
-    deleteCoach(id) {
-      axios.delete(`https://backend-lrvc.onrender.com/api/coaches/${id}`).then(() => {
-        this.fetchCoaches();
-      });
+    async deleteCoach(id) {
+      try {
+        await axios.delete(`https://backend-lrvc.onrender.com/api/coaches/${id}`);
+        await this.fetchCoaches();
+      } catch (err) {
+        console.error("Greška prilikom brisanja trenera:", err);
+        this.error = "Greška prilikom brisanja trenera.";
+      }
     },
     getImageUrl(path) {
       return path || "";
