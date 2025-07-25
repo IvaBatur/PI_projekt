@@ -3,12 +3,12 @@
     <h1>Naši Treneri</h1>
     <p class="subtitle">Profesionalni tim koji vas vodi do vrha!</p>
 
-    <div v-if="role === 'coach'" class="add-coach-form">
+    <div v-if="userRole === 'coach'" class="add-coach-form">
       <h2>Dodaj novog trenera</h2>
       <div class="form-group">
-        <input v-model="noviTrener.ime" placeholder="Ime i prezime " />
+        <input v-model="noviTrener.ime" placeholder="Ime i prezime" />
         <input v-model="noviTrener.opis" placeholder="Opis" />
-       <input v-model="noviTrener.phone" type="tel" placeholder="Telefon" />
+        <input v-model="noviTrener.phone" type="tel" placeholder="Telefon" />
         <input v-model="noviTrener.email" type="email" placeholder="Email" />
         <input type="file" @change="onFileChange" />
       </div>
@@ -22,7 +22,9 @@
         <h3>{{ trener.ime }}</h3>
         <p>{{ trener.opis }}</p>
         <button class="contact-btn" @click="showContact(trener)">Kontaktiraj</button>
-        <button v-if="role === 'coach'" class="delete-btn" @click="deleteCoach(trener.id)">Obriši</button>
+        <button v-if="userRole === 'coach'" class="delete-btn" @click="deleteCoach(trener.id)">
+          Obriši
+        </button>
       </div>
     </div>
 
@@ -38,13 +40,11 @@
 </template>
 
 <script>
-import axios from 'axios';
+import axios from "axios";
+import { mapGetters } from "vuex";
 
 export default {
   name: "CoachView",
-  props: {
-    role: { type: String, default: "guest" }
-  },
   data() {
     return {
       treneri: [],
@@ -54,12 +54,17 @@ export default {
       noviTrener: { ime: "", opis: "", phone: "", email: "" }
     };
   },
+  computed: {
+    ...mapGetters({
+      userRole: "auth/userRole" 
+    })
+  },
   created() {
     this.fetchCoaches();
   },
   methods: {
     fetchCoaches() {
-      axios.get("https://backend-lrvc.onrender.com/api/coaches").then(res => {
+      axios.get("https://backend-lrvc.onrender.com/api/coaches").then((res) => {
         this.treneri = res.data;
       });
     },
@@ -69,51 +74,57 @@ export default {
     showContact(trener) {
       this.selected = trener;
     },
- async addCoach() {
-  this.error = "";
+    async addCoach() {
+      this.error = "";
 
-  const phoneRegex = /^[0-9+ ]{6,20}$/;
-  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      const phoneRegex = /^[0-9+ ]{6,20}$/;
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-  if (!this.noviTrener.ime || !this.noviTrener.opis || !this.noviTrener.phone || !this.noviTrener.email || !this.file) {
-    this.error = "Popunite sva polja i odaberite sliku.";
-    return;
-  }
+      if (
+        !this.noviTrener.ime ||
+        !this.noviTrener.opis ||
+        !this.noviTrener.phone ||
+        !this.noviTrener.email ||
+        !this.file
+      ) {
+        this.error = "Popunite sva polja i odaberite sliku.";
+        return;
+      }
 
-  if (!phoneRegex.test(this.noviTrener.phone)) {
-    this.error = "Unesite ispravan broj telefona (samo brojevi, razmak i '+').";
-    return;
-  }
+      if (!phoneRegex.test(this.noviTrener.phone)) {
+        this.error = "Unesite ispravan broj telefona.";
+        return;
+      }
 
-  if (!emailRegex.test(this.noviTrener.email)) {
-    this.error = "Unesite ispravan email (mora sadržavati @ i točku).";
-    return;
-  }
+      if (!emailRegex.test(this.noviTrener.email)) {
+        this.error = "Unesite ispravan email.";
+        return;
+      }
 
-  const formData = new FormData();
-  formData.append("ime", this.noviTrener.ime);
-  formData.append("opis", this.noviTrener.opis);
-  formData.append("phone", this.noviTrener.phone);
-  formData.append("email", this.noviTrener.email);
-  formData.append("image", this.file);
+      const formData = new FormData();
+      formData.append("ime", this.noviTrener.ime);
+      formData.append("opis", this.noviTrener.opis);
+      formData.append("phone", this.noviTrener.phone);
+      formData.append("email", this.noviTrener.email);
+      formData.append("image", this.file);
 
-  try {
-    await axios.post("https://backend-lrvc.onrender.com/api/coaches", formData);
-    this.noviTrener = { ime: "", opis: "", phone: "", email: "" };
-    this.file = null;
-    this.fetchCoaches();
-  } catch {
-    this.error = "Greška prilikom dodavanja trenera.";
-  }
-},
+      try {
+        await axios.post("https://backend-lrvc.onrender.com/api/coaches", formData);
+        this.noviTrener = { ime: "", opis: "", phone: "", email: "" };
+        this.file = null;
+        this.fetchCoaches();
+      } catch {
+        this.error = "Greška prilikom dodavanja trenera.";
+      }
+    },
     deleteCoach(id) {
       axios.delete(`https://backend-lrvc.onrender.com/api/coaches/${id}`).then(() => {
         this.fetchCoaches();
       });
     },
-   getImageUrl(path) {
-  return path || '';
-}
+    getImageUrl(path) {
+      return path || "";
+    }
   }
 };
 </script>
@@ -141,7 +152,7 @@ h1 {
   margin: 2rem auto;
   max-width: 500px;
   border-radius: 8px;
-  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 .form-group input {
   margin: 0.2rem 0;
@@ -193,7 +204,8 @@ h1 {
   font-size: 0.9rem;
   color: #555;
 }
-.contact-btn, .delete-btn {
+.contact-btn,
+.delete-btn {
   background: #b80000;
   color: white;
   border: none;
@@ -202,7 +214,8 @@ h1 {
   border-radius: 4px;
   cursor: pointer;
 }
-.contact-btn:hover, .delete-btn:hover {
+.contact-btn:hover,
+.delete-btn:hover {
   background: #900000;
 }
 .close-btn {
@@ -218,7 +231,7 @@ h1 {
 .modal-overlay {
   position: fixed;
   inset: 0;
-  background: rgba(0,0,0,0.5);
+  background: rgba(0, 0, 0, 0.5);
   display: flex;
   justify-content: center;
   align-items: center;
