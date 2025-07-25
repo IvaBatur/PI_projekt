@@ -1,58 +1,89 @@
 <template>
-  <div class="profile-container" v-if="profil">
-    <h1>Moj Profil</h1>
-    <div class="profile-card">
-      <p><strong>Ime:</strong> {{ profil.ime }}</p>
-      <p><strong>Prezime:</strong> {{ profil.prezime }}</p>
-      <p><strong>Datum rođenja:</strong> {{ profil.datumRodenja }}</p>
-      <p><strong>Visina:</strong> {{ profil.visina }} cm</p>
-      <p><strong>Težina:</strong> {{ profil.tezina }} kg</p>
-      <p><strong>Kategorija:</strong> {{ profil.kategorija }}</p>
+  <div class="min-h-screen bg-gradient-to-br from-gray-100 to-gray-200 py-10">
+    <div class="max-w-3xl mx-auto bg-white rounded-2xl shadow-lg p-8">
+      
+   
+      <div class="flex flex-col items-center mb-8">
+        <div class="w-24 h-24 rounded-full bg-red-600 text-white flex items-center justify-center text-3xl font-bold shadow">
+          {{ profil ? profil.ime.charAt(0) : '?' }}
+        </div>
+        <h2 class="mt-4 text-3xl font-extrabold text-gray-800">Moj profil</h2>
+        <p class="text-gray-500">{{ userEmail }}</p>
+      </div>
+
+      
+      <div v-if="profil" class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+        <div v-for="(value, label) in podaci" :key="label" class="p-5 rounded-lg bg-gray-50 border hover:shadow transition">
+          <p class="text-sm text-gray-500">{{ label }}</p>
+          <p class="text-lg font-semibold text-gray-800">{{ value }}</p>
+        </div>
+      </div>
+
+     
+      <div v-else class="text-center text-gray-500 text-lg py-10">
+        Nema podataka o profilu.
+      </div>
     </div>
   </div>
 </template>
 
 <script>
-import { mapGetters } from 'vuex';
+import { mapGetters } from "vuex";
 
 export default {
-  name: 'MojProfil',
   data() {
     return {
       profil: null
-    }
+    };
   },
   computed: {
-    ...mapGetters('auth', ['userEmail']) 
+    ...mapGetters({
+      userEmail: "auth/userEmail"
+    }),
+    podaci() {
+      if (!this.profil) return {};
+      return {
+        "Ime": this.profil.ime,
+        "Prezime": this.profil.prezime,
+        "Datum rođenja": this.profil.datumRodenja,
+        "Dob": this.izracunajDob(this.profil.datumRodenja) + " godina",
+        "Visina": this.profil.visina + " cm",
+        "Težina": this.profil.tezina + " kg",
+        "Kategorija": this.profil.kategorija
+      };
+    }
   },
   mounted() {
-    this.dohvatiProfil();
+    this.ucitajProfil();
   },
   methods: {
-    async dohvatiProfil() {
-      const res = await fetch(`http://localhost:3000/api/members/profile?email=${this.userEmail}`);
-      if (res.ok) {
+    async ucitajProfil() {
+      try {
+        const res = await fetch(`https://backend-lrvc.onrender.com/api/members/by-email/${this.userEmail}`);
+        if (!res.ok) throw new Error("Nema podataka");
         this.profil = await res.json();
-      } else {
-        console.error('Ne mogu dohvatiti profil');
+      } catch (err) {
+        console.error("Greška pri učitavanju profila:", err);
       }
+    },
+    izracunajDob(datum) {
+      const rod = new Date(datum);
+      const danas = new Date();
+      let dob = danas.getFullYear() - rod.getFullYear();
+      const m = danas.getMonth() - rod.getMonth();
+      if (m < 0 || (m === 0 && danas.getDate() < rod.getDate())) dob--;
+      return dob;
     }
   }
-}
+};
 </script>
 
 <style scoped>
-.profile-container {
-  max-width: 600px;
-  margin: 2rem auto;
-  padding: 1rem;
-  background: #f9f9f9;
-  border-radius: 12px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-}
 
-.profile-card p {
-  font-size: 1.1rem;
-  margin: 0.5rem 0;
+.grid > div {
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.grid > div:hover {
+  transform: translateY(-2px);
 }
 </style>
