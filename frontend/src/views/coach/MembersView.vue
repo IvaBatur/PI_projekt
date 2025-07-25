@@ -117,6 +117,7 @@ export default {
         ime: '',
         prezime: '',
         datumRodenja: '',
+        email: '',
         visina: null,
         tezina: '',
         kategorija: ''
