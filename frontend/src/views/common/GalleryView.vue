@@ -26,6 +26,7 @@
         :src="img"
         alt="Slika"
         @click="openLightbox(index)"
+         @error="images.splice(index, 1)" 
         class="rounded-lg shadow cursor-pointer transition transform hover:scale-105 hover:brightness-110 w-full h-48 object-cover"
       />
     </div>
