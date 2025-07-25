@@ -8,6 +8,7 @@
       <input v-model="noviClan.prezime" placeholder="Prezime" required class="border p-2 rounded" />
       <input v-model="noviClan.datumRodenja" type="date" required class="border p-2 rounded" />
       <input v-model.number="noviClan.visina" type="number" placeholder="Visina (cm)" required class="border p-2 rounded" />
+      <input v-model="noviClan.email" placeholder="Email člana" class="border p-2 rounded" required />
       <input v-model.number="noviClan.tezina" type="number" placeholder="Težina (kg)" required class="border p-2 rounded" />
       <input v-model="noviClan.kategorija" placeholder="Kategorija" required class="border p-2 rounded" />
 
@@ -24,6 +25,7 @@
           <th class="border px-3 py-2">Prezime</th>
           <th class="border px-3 py-2">Datum rođenja</th>
           <th class="border px-3 py-2">Dob</th>
+           <th class="border px-3 py-2">Email</th>
           <th class="border px-3 py-2">Visina (cm)</th>
           <th class="border px-3 py-2">Težina</th>
           <th class="border px-3 py-2">Kategorija</th>
@@ -36,6 +38,7 @@
           <td class="border px-3 py-2">{{ clan.prezime }}</td>
           <td class="border px-3 py-2">{{ clan.datumRodenja }}</td>
           <td class="border px-3 py-2">{{ izracunajDob(clan.datumRodenja) }}</td>
+          <td class="border px-3 py-2">{{ clan.email }}</td> 
           <td class="border px-3 py-2">{{ clan.visina }}</td>
           <td class="border px-3 py-2">{{ clan.tezina }}</td>
           <td class="border px-3 py-2">{{ clan.kategorija }}</td>
@@ -59,6 +62,7 @@ export default {
         ime: '',
         prezime: '',
         datumRodenja: '',
+        email: '',
         visina: null,
         tezina: '',
         kategorija: ''
