@@ -1,14 +1,19 @@
 <template>
   <div class="home-wrapper">
+   
     <NotificationPopup
       v-if="showPopup && popupObavijest"
       :message="popupObavijest.naslov + ': ' + popupObavijest.sadrzaj"
+      :duration="8000"
       @closed="zatvoriPopup"
+      @clicked="idiNaObavijesti"
     />
 
     <div class="overlay">
       <h1 class="app-title">3,2,1 BOX</h1>
-      <h2 class="slogan">EKIPA, DISCIPLINA, USPJEH – DOBRODOŠLI U NAŠ SVIJET!</h2>
+      <h2 class="slogan">
+        EKIPA, DISCIPLINA, USPJEH – DOBRODOŠLI U NAŠ SVIJET!
+      </h2>
 
       <div class="user-greeting">
         <p v-if="userRole === 'coach'">👊 Dobrodošao, trener!</p>
@@ -17,7 +22,11 @@
       </div>
 
       <div class="menu-box">
-        <div class="menu-item" v-for="item in prikazaniLinkovi" :key="item.label">
+        <div
+          class="menu-item"
+          v-for="item in prikazaniLinkovi"
+          :key="item.label"
+        >
           <router-link :to="item.path">
             <div class="icon">{{ item.emoji }}</div>
             <div class="label">{{ item.label }}</div>
@@ -35,12 +44,12 @@ import NotificationPopup from "@/components/NotificationPopup.vue";
 export default {
   name: "HomeStart",
   components: {
-    NotificationPopup
+    NotificationPopup,
   },
   data() {
     return {
       showPopup: false,
-      popupObavijest: null
+      popupObavijest: null,
     };
   },
   computed: {
@@ -73,25 +82,30 @@ export default {
           { path: "/guest/notices", label: "Obavijesti", emoji: "📢" },
         ];
       }
-    }
+    },
   },
   async mounted() {
-    if (this.userRole !== "member") return;
+    
+    if (this.userRole === "coach") return;
 
     try {
-      const res = await fetch('https://backend-lrvc.onrender.com/api/notices');
-      if (!res.ok) throw new Error('Greška pri dohvaćanju obavijesti');
+      const res = await fetch("https://backend-lrvc.onrender.com/api/notices");
+      if (!res.ok) throw new Error("Greška pri dohvaćanju obavijesti");
       const obavijesti = await res.json();
 
+      
       const vecVidio = JSON.parse(localStorage.getItem("popupSeenIds") || "[]");
-      const nova = obavijesti.find(o => o.javno && !vecVidio.includes(o.id));
+      
+      const nova = obavijesti.find(
+        (o) => o.javno && !vecVidio.includes(o.id)
+      );
 
       if (nova) {
         this.popupObavijest = nova;
         this.showPopup = true;
       }
     } catch (err) {
-      console.error("🔥 Greška kod dohvaćanja obavijesti iz backenda:", err);
+      console.error("Greška kod dohvaćanja obavijesti iz backenda:", err);
     }
   },
   methods: {
@@ -102,14 +116,18 @@ export default {
         localStorage.setItem("popupSeenIds", JSON.stringify(vidjeno));
       }
       this.showPopup = false;
-    }
-  }
+    },
+    idiNaObavijesti() {
+      const role = localStorage.getItem("role") || "guest";
+      this.$router.push(`/${role}/notices`);
+    },
+  },
 };
 </script>
 
 <style scoped>
 .home-wrapper {
-  background: url('@/assets/pozadina.jpg') no-repeat center center fixed;
+  background: url("@/assets/pozadina.jpg") no-repeat center center fixed;
   background-size: cover;
   min-height: 100vh;
   position: relative;
@@ -126,7 +144,7 @@ export default {
   text-align: center;
   max-width: 900px;
   width: 95%;
-  box-shadow: 0 0 15px rgba(0,0,0,0.5);
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
 }
 
 .app-title {
@@ -134,12 +152,12 @@ export default {
   margin-bottom: 0.5rem;
   font-weight: bold;
   letter-spacing: 1px;
-  text-shadow: 2px 2px 4px rgba(0,0,0,0.7);
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
 }
 
 .slogan {
   font-size: 1.4rem;
-  margin-bottom: 3rem; /* puno više prostora */
+  margin-bottom: 3rem;
   font-style: italic;
   color: #ddd;
 }
@@ -159,15 +177,16 @@ export default {
   background-color: #1e2a3a;
   padding: 1.2rem;
   border-radius: 15px;
-  transition: transform 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease;
+  transition: transform 0.3s ease, box-shadow 0.3s ease,
+    background-color 0.3s ease;
   cursor: pointer;
-  box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
 }
 
 .menu-item:hover {
   background-color: #344966;
   transform: translateY(-8px) scale(1.08);
-  box-shadow: 0 12px 20px rgba(0,0,0,0.5);
+  box-shadow: 0 12px 20px rgba(0, 0, 0, 0.5);
 }
 
 .menu-item .icon {
@@ -191,7 +210,4 @@ export default {
   color: white;
   text-decoration: none;
 }
-
-
 </style>
-
