@@ -18,6 +18,10 @@ export default {
     message: {
       type: String,
       required: true
+    },
+    duration: {
+      type: Number,
+      default: 10000
     }
   },
   data() {
@@ -26,11 +30,10 @@ export default {
     };
   },
   mounted() {
-  
     setTimeout(() => {
       this.show = false;
       this.$emit("closed");
-    }, 10000);
+    }, this.duration);
   },
   methods: {
     closePopup() {
@@ -39,10 +42,10 @@ export default {
       this.$emit("closed");
     },
     handleClick() {
-      
       const role = localStorage.getItem("role") || "member";
       this.$router.push(`/${role}/notices`);
     }
   }
 };
+
 </script>
