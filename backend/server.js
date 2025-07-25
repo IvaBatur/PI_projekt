@@ -3,38 +3,23 @@ const cors = require('cors');
 const fs = require('fs');
 const path = require('path');
 const multer = require('multer');
-
+const { CloudinaryStorage } = require('multer-storage-cloudinary');
 require('dotenv').config();
 
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-const cloudinary = require('cloudinary').v2;
 
+const cloudinary = require('cloudinary').v2;
 cloudinary.config({
   cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
   api_key: process.env.CLOUDINARY_API_KEY,
   api_secret: process.env.CLOUDINARY_API_SECRET
 });
 
-
 app.use(cors());
 app.use(express.json());
-app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 app.use('/uploads/coaches', express.static(path.join(__dirname, 'uploads/coaches')));
-
-
-
-
-const coachDir = path.join(__dirname, 'uploads/coaches');
-if (!fs.existsSync(coachDir)) fs.mkdirSync(coachDir, { recursive: true });
-
-
-const coachStorage = multer.diskStorage({
-  destination: (req, file, cb) => cb(null, 'uploads/coaches/'),
-  filename: (req, file, cb) => cb(null, Date.now() + path.extname(file.originalname))
-});
-const coachUpload = multer({ storage: coachStorage });
 
 
 const readJSON = (file) => fs.existsSync(file) ? JSON.parse(fs.readFileSync(file, 'utf-8')) : [];
@@ -44,7 +29,7 @@ const COACHES_FILE = path.join(__dirname, 'coaches.json');
 const MEMBERS_FILE = path.join(__dirname, 'members.json');
 const TOURNAMENTS_FILE = path.join(__dirname, 'tournaments.json');
 const NOTICES_FILE = path.join(__dirname, 'notices.json');
-
+const GALLERY_FILE = path.join(__dirname, 'gallery.json');
 
 app.post('/api/login', (req, res) => {
   const { email, password } = req.body;
@@ -58,21 +43,31 @@ app.post('/api/login', (req, res) => {
 });
 
 
-const galleryStorage = multer.diskStorage({
-  destination: (req, file, cb) => cb(null, 'uploads/'),
-  filename: (req, file, cb) => cb(null, Date.now() + path.extname(file.originalname))
+const galleryStorage = new CloudinaryStorage({
+  cloudinary,
+  params: {
+    folder: 'gallery',
+    allowed_formats: ['jpg', 'png', 'jpeg']
+  }
 });
 const galleryUpload = multer({ storage: galleryStorage });
 
+
 app.post('/api/gallery', galleryUpload.single('image'), (req, res) => {
-  res.status(201).json({ filename: req.file.filename });
+  const gallery = readJSON(GALLERY_FILE);
+  const newImage = {
+    id: Date.now(),
+    url: req.file.path,         
+    public_id: req.file.filename 
+  };
+  gallery.push(newImage);
+  writeJSON(GALLERY_FILE, gallery);
+  res.status(201).json(newImage);
 });
 
 app.get('/api/gallery', (req, res) => {
-  fs.readdir(path.join(__dirname, 'uploads'), (err, files) => {
-    if (err) return res.status(500).json({ message: 'Greška na serveru' });
-    res.json(files.map(f => `/uploads/${f}`));
-  });
+  const gallery = readJSON(GALLERY_FILE);
+  res.json(gallery);
 });
 
 
@@ -105,7 +100,6 @@ app.delete('/api/notices/:id', (req, res) => {
   writeJSON(NOTICES_FILE, notices);
   res.status(204).end();
 });
-
 
 app.get('/api/members', (req, res) => res.json(readJSON(MEMBERS_FILE)));
 
@@ -144,9 +138,6 @@ app.get('/api/members/by-email/:email', (req, res) => {
   res.json(clan);
 });
 
-
-
-
 app.get('/api/tournaments', (req, res) => res.json(readJSON(TOURNAMENTS_FILE)));
 
 app.post('/api/tournaments', (req, res) => {
@@ -169,6 +160,14 @@ app.put('/api/tournaments/:id/prijavi', (req, res) => {
   res.json(turnir);
 });
 
+const coachDir = path.join(__dirname, 'uploads/coaches');
+if (!fs.existsSync(coachDir)) fs.mkdirSync(coachDir, { recursive: true });
+
+const coachStorage = multer.diskStorage({
+  destination: (req, file, cb) => cb(null, 'uploads/coaches/'),
+  filename: (req, file, cb) => cb(null, Date.now() + path.extname(file.originalname))
+});
+const coachUpload = multer({ storage: coachStorage });
 
 app.get('/api/coaches', (req, res) => res.json(readJSON(COACHES_FILE)));
 
@@ -178,7 +177,7 @@ app.post('/api/coaches', coachUpload.single('image'), async (req, res) => {
     return res.status(400).json({ message: 'Sva polja i slika su obavezni' });
   }
 
-   const result = await cloudinary.uploader.upload(req.file.path, {
+  const result = await cloudinary.uploader.upload(req.file.path, {
     folder: 'coaches'
   });
   const coaches = readJSON(COACHES_FILE);
@@ -188,7 +187,7 @@ app.post('/api/coaches', coachUpload.single('image'), async (req, res) => {
     opis,
     phone,
     email,
-      slika: result.secure_url,
+    slika: result.secure_url,
     public_id: result.public_id
   };
 
