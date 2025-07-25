@@ -33,4 +33,3 @@ Gost može pristupiti aplikaciji bez prijave odabirom opcije *Continue as Guest*
 
 > Prototip aplikacije: https://www.figma.com/proto/02wwDnkpBpzyDkWm041zox/Untitled?node-id=0-1&t=x1kvo4e0jsMlR14v-1
 
-> Za pokretanje aplikacije, prvo pokrenuti backend server (`node index.js`) i zatim frontend (`npm run serve`).
