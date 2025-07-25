@@ -40,6 +40,13 @@
 </div>
 
         </div>
+<div
+  v-if="toastMessage"
+  class="fixed top-5 right-5 bg-green-600 text-white px-4 py-2 rounded shadow-lg animate-fade-in"
+>
+  {{ toastMessage }}
+</div>
+
 
         <button
           v-if="userRole === 'member'"
@@ -58,7 +65,6 @@
 import { mapGetters } from 'vuex';
 
 export default {
-  name: 'TournamentsView',
   data() {
     return {
       tournaments: [],
@@ -66,35 +72,49 @@ export default {
         name: '',
         location: '',
         date: ''
-      }
+      },
+      toastMessage: '' 
     };
   },
+
   computed: {
-    ...mapGetters({ userRole: 'auth/userRole', userEmail: 'auth/userEmail' })
+    ...mapGetters({
+      userRole: 'auth/userRole',
+      userEmail: 'auth/userEmail'
+    })
   },
+
   mounted() {
     this.fetchTournaments();
   },
+
   methods: {
-   
-       async fetchTournaments() {
-  try {
-    const res = await fetch('https://backend-lrvc.onrender.com/api/tournaments');
-    const data = await res.json();
+    showToast(msg) {
+      this.toastMessage = msg;
+      setTimeout(() => {
+        this.toastMessage = '';
+      }, 3000); 
+    },
 
-    console.log('Dohvaceni turniri:', data);
+    async fetchTournaments() {
+      try {
+        const res = await fetch('https://backend-lrvc.onrender.com/api/tournaments');
+        const data = await res.json();
 
-    this.tournaments = data.map(t => ({
-      id: t.id,
-      name: t.name,
-      location: t.location,
-      date: t.date,
-      prijavljeni: Array.isArray(t.prijavljeni) ? t.prijavljeni : []
-    }));
-  } catch (err) {
-    console.error('Greška pri dohvaćanju turnira', err);
-  }
-},
+        console.log('Dohvaćeni turniri:', data);
+
+        this.tournaments = data.map(t => ({
+          id: t.id,
+          name: t.name,
+          location: t.location,
+          date: t.date,
+          prijavljeni: Array.isArray(t.prijavljeni) ? t.prijavljeni : []
+        }));
+      } catch (err) {
+        console.error('Greška pri dohvaćanju turnira', err);
+      }
+    },
+
     async addTournament() {
       try {
         const res = await fetch('https://backend-lrvc.onrender.com/api/tournaments', {
@@ -109,28 +129,30 @@ export default {
         console.error('Greška pri dodavanju turnira', err);
       }
     },
- async prijaviSe(turnirId) {
-  try {
-    const clanEmail = this.userEmail;
-    console.log('Prijavljujem kao:', clanEmail);
 
-    const res = await fetch(`https://backend-lrvc.onrender.com/api/tournaments/${turnirId}/prijavi`, {
-      method: 'PUT',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ clan: clanEmail })
-    });
+    async prijaviSe(turnirId) {
+      try {
+        const clanEmail = this.userEmail;
+        console.log('Prijavljujem kao:', clanEmail);
 
-    if (!res.ok) {
-      const errorText = await res.text();
-      throw new Error('Prijava nije uspjela: ' + errorText);
-    }
+        const res = await fetch(`https://backend-lrvc.onrender.com/api/tournaments/${turnirId}/prijavi`, {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ clan: clanEmail })
+        });
 
-    alert('Uspješno ste prijavljeni!');
-    this.fetchTournaments();
-  } catch (err) {
-    console.error('Greška pri prijavi:', err);
-  }
-},
+        if (!res.ok) {
+          const errorText = await res.text();
+          throw new Error('Prijava nije uspjela: ' + errorText);
+        }
+
+        
+        this.showToast('Uspješno ste prijavljeni!');
+        this.fetchTournaments();
+      } catch (err) {
+        console.error('Greška pri prijavi:', err);
+      }
+    },
 
     formatDate(dateStr) {
       const date = new Date(dateStr);
