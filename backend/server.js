@@ -9,7 +9,6 @@ require('dotenv').config();
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-require('dotenv').config();
 const cloudinary = require('cloudinary').v2;
 
 cloudinary.config({
@@ -23,6 +22,8 @@ app.use(cors());
 app.use(express.json());
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 app.use('/uploads/coaches', express.static(path.join(__dirname, 'uploads/coaches')));
+
+
 
 
 const coachDir = path.join(__dirname, 'uploads/coaches');
@@ -134,6 +135,16 @@ app.delete('/api/members/:id', (req, res) => {
   writeJSON(MEMBERS_FILE, members);
   res.status(204).end();
 });
+
+app.get('/api/members/by-email/:email', (req, res) => {
+  const email = req.params.email.toLowerCase();
+  const members = readJSON(MEMBERS_FILE);
+  const clan = members.find(m => m.email.toLowerCase() === email);
+  if (!clan) return res.status(404).json({ message: 'Član nije pronađen' });
+  res.json(clan);
+});
+
+
 
 
 app.get('/api/tournaments', (req, res) => res.json(readJSON(TOURNAMENTS_FILE)));
