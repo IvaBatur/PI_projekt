@@ -9,7 +9,6 @@ require('dotenv').config();
 
 const app = express();
 const PORT = process.env.PORT || 3000;
-const cors = require("cors");
 
 
 
@@ -26,11 +25,14 @@ cloudinary.config({
   api_secret: process.env.CLOUDINARY_API_SECRET
 });
 
-app.use(cors());
-app.use(express.json());
 app.use(cors({
-  origin: "https://321box.netlify.app"
+  origin: "https://321box.netlify.app",
+  methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+  allowedHeaders: ["Content-Type", "Authorization"]
 }));
+
+app.options("*", cors()); 
+app.use(express.json());
 
 const Member = mongoose.model('Member', new mongoose.Schema({
   ime: String,
