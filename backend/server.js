@@ -9,6 +9,9 @@ require('dotenv').config();
 
 const app = express();
 const PORT = process.env.PORT || 3000;
+const cors = require("cors");
+
+
 
 mongoose.connect(process.env.MONGO_URI, {
   useNewUrlParser: true,
@@ -25,6 +28,9 @@ cloudinary.config({
 
 app.use(cors());
 app.use(express.json());
+app.use(cors({
+  origin: "https://321box.netlify.app"
+}));
 
 const Member = mongoose.model('Member', new mongoose.Schema({
   ime: String,
