@@ -17,12 +17,12 @@
     </div>
 
     <div class="coach-grid">
-      <div class="coach-card" v-for="trener in treneri" :key="trener.id">
+      <div class="coach-card" v-for="trener in treneri" :key="trener._id">
         <img :src="getImageUrl(trener.slika)" :alt="trener.ime" />
         <h3>{{ trener.ime }}</h3>
         <p>{{ trener.opis }}</p>
         <button class="contact-btn" @click="showContact(trener)">Kontaktiraj</button>
-        <button v-if="userRole === 'coach'" class="delete-btn" @click="deleteCoach(trener.id)">
+        <button v-if="userRole === 'coach'" class="delete-btn" @click="deleteCoach(trener._id)">
           Obriši
         </button>
       </div>
@@ -123,9 +123,9 @@ export default {
         this.error = "Greška prilikom dodavanja trenera.";
       }
     },
-    async deleteCoach(id) {
+    async deleteCoach(_id) {
       try {
-        await axios.delete(`https://backend-lrvc.onrender.com/api/coaches/${id}`);
+        await axios.delete(`https://backend-lrvc.onrender.com/api/coaches/${_id}`);
         await this.fetchCoaches();
       } catch (err) {
         console.error("Greška prilikom brisanja trenera:", err);
