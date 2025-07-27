@@ -33,7 +33,7 @@
         </tr>
       </thead>
       <tbody>
-        <tr v-for="clan in clanovi" :key="clan.id" class="hover:bg-gray-50">
+        <tr v-for="clan in clanovi" :key="clan._id" class="hover:bg-gray-50">
           <td class="border px-3 py-2">{{ clan.ime }}</td>
           <td class="border px-3 py-2">{{ clan.prezime }}</td>
           <td class="border px-3 py-2">{{ clan.datumRodenja }}</td>
@@ -44,7 +44,7 @@
           <td class="border px-3 py-2">{{ clan.kategorija }}</td>
           <td class="border px-3 py-2 flex flex-col gap-1">
             <button @click="urediClana(clan)" class="bg-yellow-400 hover:bg-yellow-500 text-white px-2 py-1 rounded">Uredi</button>
-            <button @click="obrisiClana(clan.id)" class="bg-gray-700 hover:bg-gray-800 text-white px-2 py-1 rounded">Obriši</button>
+            <button @click="obrisiClana(clan._id)" class="bg-gray-700 hover:bg-gray-800 text-white px-2 py-1 rounded">Obriši</button>
           </td>
         </tr>
       </tbody>
@@ -87,7 +87,7 @@ export default {
           body: JSON.stringify(this.noviClan)
         });
         const updated = await res.json();
-        const idx = this.clanovi.findIndex(c => c.id === this.editId);
+        const idx = this.clanovi.findIndex(c => c._id === this.editId);
         if (idx !== -1) this.clanovi.splice(idx, 1, updated);
         this.editId = null;
       } else {
@@ -102,14 +102,14 @@ export default {
       }
       this.resetForma();
     },
-    async obrisiClana(id) {
-      await fetch(`https://backend-lrvc.onrender.com/api/members/${id}`, {
+    async obrisiClana(_id) {
+      await fetch(`https://backend-lrvc.onrender.com/api/members/${_id}`, {
         method: 'DELETE'
       });
-      this.clanovi = this.clanovi.filter(c => c.id !== id);
+      this.clanovi = this.clanovi.filter(c => c._id !== _id);
     },
     urediClana(clan) {
-      this.editId = clan.id;
+      this.editId = clan._id;
       this.noviClan = { ...clan };
     },
     resetForma() {
