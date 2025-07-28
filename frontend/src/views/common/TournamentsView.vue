@@ -33,28 +33,30 @@
           <p class="text-sm">📅 Datum: {{ formatDate(t.date) }}</p>
 
           <div v-if="userRole === 'coach' && t.prijavljeni?.length">
-  <p class="text-sm font-bold mt-2">Prijavljeni:</p>
-  <ul>
-    <li v-for="clan in t.prijavljeni" :key="clan">{{ clan }}</li>
-  </ul>
-</div>
-
+            <p class="text-sm font-bold mt-2">Prijavljeni:</p>
+            <ul>
+              <li v-for="clan in t.prijavljeni" :key="clan">{{ clan }}</li>
+            </ul>
+          </div>
         </div>
-<div
-  v-if="toastMessage"
-  class="fixed top-5 right-5 bg-green-600 text-white px-4 py-2 rounded shadow-lg animate-fade-in"
->
-  {{ toastMessage }}
-</div>
 
+        <div
+          v-if="toastMessage"
+          class="fixed top-5 right-5 bg-green-600 text-white px-4 py-2 rounded shadow-lg animate-fade-in"
+        >
+          {{ toastMessage }}
+        </div>
 
         <button
           v-if="userRole === 'member'"
           @click="prijaviSe(t.id)"
-          class="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700 mt-2" >  Prijavi se
+          class="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700 mt-2"
+        >
+          Prijavi se
         </button>
-         </div>
-                    <p v-if="!tournaments.length" class="text-center mt-8 text-gray-300">
+      </div>
+
+      <p v-if="!tournaments.length" class="text-center mt-8 text-gray-300">
         📭 Trenutno nema nadolazećih turnira.
       </p>
     </div>
@@ -101,10 +103,9 @@ export default {
         const res = await fetch('https://backend-lrvc.onrender.com/api/tournaments');
         const data = await res.json();
 
-        console.log('Dohvaćeni turniri:', data);
-
+        // ispravno mapiranje _id u id
         this.tournaments = data.map(t => ({
-          id: t.id,
+          id: t._id,
           name: t.name,
           location: t.location,
           date: t.date,
@@ -123,7 +124,16 @@ export default {
           body: JSON.stringify(this.newTournament)
         });
         const created = await res.json();
-        this.tournaments.push(created);
+
+        // odmah ga mapiramo da ima "id" umjesto "_id"
+        this.tournaments.push({
+          id: created._id,
+          name: created.name,
+          location: created.location,
+          date: created.date,
+          prijavljeni: []
+        });
+
         this.newTournament = { name: '', location: '', date: '' };
       } catch (err) {
         console.error('Greška pri dodavanju turnira', err);
@@ -146,7 +156,6 @@ export default {
           throw new Error('Prijava nije uspjela: ' + errorText);
         }
 
-        
         this.showToast('Uspješno ste prijavljeni!');
         this.fetchTournaments();
       } catch (err) {
