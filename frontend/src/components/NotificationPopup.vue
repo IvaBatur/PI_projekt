@@ -22,6 +22,10 @@ export default {
     duration: {
       type: Number,
       default: 10000
+    },
+    noticeKey: { 
+      type: String,
+      required: true
     }
   },
   data() {
@@ -30,6 +34,14 @@ export default {
     };
   },
   mounted() {
+  
+    const closedKey = localStorage.getItem("popupClosedKey");
+    if (closedKey === this.noticeKey) {
+      this.show = false;
+      return;
+    }
+
+    
     setTimeout(() => {
       this.show = false;
       this.$emit("closed");
@@ -38,7 +50,8 @@ export default {
   methods: {
     closePopup() {
       this.show = false;
-      localStorage.setItem("popupClosed", "true");
+   
+      localStorage.setItem("popupClosedKey", this.noticeKey);
       this.$emit("closed");
     },
     handleClick() {
@@ -47,5 +60,4 @@ export default {
     }
   }
 };
-
 </script>
