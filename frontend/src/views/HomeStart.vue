@@ -1,13 +1,15 @@
 <template>
   <div class="home-wrapper">
    
-    <NotificationPopup
-      v-if="showPopup && popupObavijest"
-      :message="popupObavijest.naslov + ': ' + popupObavijest.sadrzaj"
-      :duration="8000"
-      @closed="zatvoriPopup"
-      @clicked="idiNaObavijesti"
-    />
+<NotificationPopup
+  v-if="showPopup && popupObavijest"
+  :message="popupObavijest.naslov + ': ' + popupObavijest.sadrzaj"
+  :noticeKey="popupObavijest._id"
+  :duration="8000"
+  @closed="zatvoriPopup"
+  @clicked="idiNaObavijesti"
+/>
+
 
     <div class="overlay">
       <h1 class="app-title">3,2,1 BOX</h1>
@@ -50,6 +52,7 @@ export default {
     return {
       showPopup: false,
       popupObavijest: null,
+      vecVidio: JSON.parse(localStorage.getItem("popupSeenIds") || "[]")
     };
   },
   computed: {
@@ -84,8 +87,7 @@ export default {
       }
     },
   },
-  async mounted() {
-    
+async mounted() {
     if (this.userRole === "coach") return;
 
     try {
@@ -93,11 +95,10 @@ export default {
       if (!res.ok) throw new Error("Greška pri dohvaćanju obavijesti");
       const obavijesti = await res.json();
 
-      
       const vecVidio = JSON.parse(localStorage.getItem("popupSeenIds") || "[]");
-      
+
       const nova = obavijesti.find(
-        (o) => o.javno && !vecVidio.includes(o.id)
+        (o) => o.javno && !vecVidio.includes(o._id)
       );
 
       if (nova) {
@@ -108,22 +109,27 @@ export default {
       console.error("Greška kod dohvaćanja obavijesti iz backenda:", err);
     }
   },
+
   methods: {
     zatvoriPopup() {
-      const vidjeno = JSON.parse(localStorage.getItem("popupSeenIds") || "[]");
-      if (this.popupObavijest) {
-        vidjeno.push(this.popupObavijest.id);
-        localStorage.setItem("popupSeenIds", JSON.stringify(vidjeno));
-      }
-      this.showPopup = false;
-    },
+  if (this.popupObavijest && this.popupObavijest._id) {
+    let vecVidio = JSON.parse(localStorage.getItem("popupSeenIds") || "[]");
+    if (!vecVidio.includes(this.popupObavijest._id)) {
+      vecVidio.push(this.popupObavijest._id);
+      localStorage.setItem("popupSeenIds", JSON.stringify(vecVidio));
+    }
+  }
+  this.showPopup = false;
+},
+
     idiNaObavijesti() {
-      const role = localStorage.getItem("role") || "guest";
+      const role = localStorage.getItem("role") || "member";
       this.$router.push(`/${role}/notices`);
-    },
-  },
+    }
+  }
 };
 </script>
+
 
 <style scoped>
 .home-wrapper {
