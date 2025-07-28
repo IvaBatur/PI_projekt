@@ -10,8 +10,6 @@ require('dotenv').config();
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-
-
 mongoose.connect(process.env.MONGO_URI, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
@@ -25,26 +23,7 @@ cloudinary.config({
   api_secret: process.env.CLOUDINARY_API_SECRET
 });
 
-const allowedOrigins = [
-  "http://localhost:5173",
-  "https://321box.netlify.app"
-];
-
-app.use(cors({
-  origin: function (origin, callback) {
-   
-    if (!origin || allowedOrigins.includes(origin)) {
-      callback(null, true);
-    } else {
-      callback(new Error("CORS blocked: " + origin));
-    }
-  },
-  methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-  allowedHeaders: ["Content-Type", "Authorization"],
-  credentials: true
-}));
-
-app.options("*", cors());
+app.use(cors());
 app.use(express.json());
 
 const Member = mongoose.model('Member', new mongoose.Schema({
