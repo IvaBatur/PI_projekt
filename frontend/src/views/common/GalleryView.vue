@@ -74,6 +74,7 @@
 </template>
 
 <script>
+<script>
 import AddImageForm from './AddImageForm.vue';
 import { mapGetters } from 'vuex';
 
@@ -103,7 +104,8 @@ export default {
       try {
         const response = await fetch('https://backend-lrvc.onrender.com/api/gallery');
         const data = await response.json();
-        this.images = data.map(img => `https://backend-lrvc.onrender.com${img}`);
+  
+        this.images = data.map(img => img.url);
       } catch (err) {
         console.error('❌ Greška pri dohvaćanju slika:', err);
       } finally {
