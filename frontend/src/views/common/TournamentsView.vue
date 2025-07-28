@@ -6,8 +6,7 @@
       <form
         v-if="userRole === 'coach'"
         @submit.prevent="addTournament"
-        class="bg-white text-black rounded-lg p-4 mb-8 shadow"
-      >
+        class="bg-white text-black rounded-lg p-4 mb-8 shadow" >
         <h2 class="text-xl font-bold mb-4">Dodaj novi turnir</h2>
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
           <input v-model="newTournament.name" placeholder="Naziv turnira" class="border p-2 rounded" required />
@@ -16,8 +15,7 @@
         </div>
         <button
           type="submit"
-          class="mt-4 bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700"
-        >
+          class="mt-4 bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700">
           Dodaj
         </button>
       </form>
@@ -25,8 +23,7 @@
       <div
         v-for="t in tournaments"
         :key="t.id"
-        class="bg-white text-black rounded-lg p-4 mb-4 shadow"
-      >
+        class="bg-white text-black rounded-lg p-4 mb-4 shadow">
         <div>
           <h3 class="text-xl font-bold mb-1">🥊 {{ t.name }}</h3>
           <p class="text-sm">📍 Lokacija: {{ t.location }}</p>
@@ -42,16 +39,14 @@
 
         <div
           v-if="toastMessage"
-          class="fixed top-5 right-5 bg-green-600 text-white px-4 py-2 rounded shadow-lg animate-fade-in"
-        >
+          class="fixed top-5 right-5 bg-green-600 text-white px-4 py-2 rounded shadow-lg animate-fade-in" >
           {{ toastMessage }}
         </div>
 
         <button
           v-if="userRole === 'member'"
           @click="prijaviSe(t.id)"
-          class="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700 mt-2"
-        >
+          class="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700 mt-2"  >
           Prijavi se
         </button>
       </div>
@@ -102,8 +97,7 @@ export default {
       try {
         const res = await fetch('https://backend-lrvc.onrender.com/api/tournaments');
         const data = await res.json();
-
-        // ispravno mapiranje _id u id
+    
         this.tournaments = data.map(t => ({
           id: t._id,
           name: t.name,
@@ -125,7 +119,6 @@ export default {
         });
         const created = await res.json();
 
-        // odmah ga mapiramo da ima "id" umjesto "_id"
         this.tournaments.push({
           id: created._id,
           name: created.name,
