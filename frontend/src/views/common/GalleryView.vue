@@ -74,7 +74,6 @@
 </template>
 
 <script>
-<script>
 import AddImageForm from './AddImageForm.vue';
 import { mapGetters } from 'vuex';
 
