@@ -138,7 +138,6 @@ export default {
 </script>
 
 <style scoped>
-
 .input-field {
   border: 2px solid #4a4a4a;
   padding: 0.75rem;
@@ -150,4 +149,23 @@ export default {
 
 .input-field:focus {
   border-color: #f53b3b;
-  box-shadow: 
+  box-shadow: 0 0 10px rgba(245, 59, 59, 0.5);
+}
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+th, td {
+  padding: 12px 15px;
+  text-align: left;
+}
+
+th {
+  background-color: #333;
+  color: white;
+}
+
+tr:hover {
+  background-color: #444;
+}
+</style>
