@@ -1,9 +1,11 @@
 <template>
-  <div class="members-page min-h-screen bg-cover bg-center flex items-center justify-center"
-      :style="{ backgroundImage: `url('./assets/ring.jpg')` }">
-    <div class="w-full max-w-6xl bg-black/60 backdrop-blur-xl rounded-xl shadow-2xl p-10 text-white animate-fadeIn">
-      
-      <h2 class="text-4xl font-extrabold text-center mb-10 text-red-500 drop-shadow-lg">
+  <div
+    class="members-page min-h-screen bg-cover bg-center flex items-center justify-center"
+    :style="{ backgroundImage: `url(${require('@/assets/ring.jpg')})` }" >
+    <div
+      class="w-full max-w-6xl bg-black/70 backdrop-blur-xl rounded-2xl shadow-2xl p-10 text-white animate-fadeIn">
+      <h2
+        class="text-4xl font-extrabold text-center mb-10 text-red-500 drop-shadow-lg">
         👥 Upravljanje članovima
       </h2>
 
@@ -138,45 +140,44 @@ export default {
 </script>
 
 <style scoped>
-  .members-page {
+.members-page {
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
-  min-height: 100vh; 
-}
-  
-.input-field {
-  border: 2px solid #4a4a4a;
-  padding: 0.75rem;
-  border-radius: 0.5rem;
-  background-color: #1a1a1a;
-  color: white;
-  transition: border-color 0.3s, box-shadow 0.3s;
+  min-height: 100vh;
 }
 
+.input-field {
+  border: 2px solid #ccc;
+  padding: 0.75rem;
+  border-radius: 0.5rem;
+  background-color: #f9f9f9;
+  color: #111;
+  transition: border-color 0.3s, box-shadow 0.3s;
+}
 .input-field:focus {
   border-color: #f53b3b;
   box-shadow: 0 0 10px rgba(245, 59, 59, 0.5);
 }
+
 table {
   width: 100%;
   border-collapse: collapse;
 }
-th, td {
+th,
+td {
   padding: 12px 15px;
   text-align: left;
 }
-
 th {
   background-color: #333;
   color: white;
 }
-
 tr:hover {
   background-color: #555;
- transition: background-color 0.3s ease-in-out;
+  transition: background-color 0.3s ease-in-out;
 }
-  button {
+button {
   border-radius: 5px;
   box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2);
   transition: transform 0.3s ease-in-out;
