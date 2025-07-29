@@ -1,7 +1,13 @@
 <template>
-  <div class="min-h-screen bg-blue-900 text-white py-8">
-    <div class="max-w-3xl mx-auto">
-      <h1 class="text-4xl font-bold mb-8 text-center">🏆 Nadolazeći turniri</h1>
+  <div
+    class="min-h-screen bg-cover bg-center relative"
+    :style="{ backgroundImage: `url(${require('@/assets/ring.jpg')})` }" >
+    <div class="absolute inset-0 bg-white/40 backdrop-blur-sm"></div>
+
+    <div class="relative max-w-4xl mx-auto py-10 px-4">
+      <h1 class="text-4xl font-extrabold mb-10 text-center text-gray-900 drop-shadow">
+        🏆 Nadolazeći turniri  </h1>
+
 
       <form
         v-if="userRole === 'coach'"
@@ -163,3 +169,18 @@ export default {
   }
 };
 </script>
+<style scoped>
+.input-field {
+  border: 1px solid #ccc;
+  padding: 0.6rem;
+  border-radius: 0.5rem;
+}
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.5s;
+}
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
+}
+</style>
