@@ -1,7 +1,7 @@
 <template>
   <div
     class="members-page min-h-screen bg-cover bg-center flex items-center justify-center"
-    :style="{ backgroundImage: `url(${require('@/assets/ring.jpg')})` }" >
+    :style="{ backgroundImage: `url(${require('@/assets/pozadina.jpg')})` }" >
     <div
       class="w-full max-w-6xl bg-black/70 backdrop-blur-xl rounded-2xl shadow-2xl p-10 text-white animate-fadeIn">
       <h2
