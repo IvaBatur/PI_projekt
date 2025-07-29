@@ -142,7 +142,7 @@ export default {
 <style scoped>
 .coach-container {
   min-height: 100vh;
-  background: url('/pozadina.jpg') center/cover fixed no-repeat;
+  background: url('@/assets/pozadina.jpg') center/cover fixed no-repeat;
   display: flex;
   flex-direction: column;
   align-items: center;
