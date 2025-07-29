@@ -2,7 +2,7 @@
   <div
     class="min-h-screen bg-cover bg-center relative"
     :style="{ backgroundImage: `url(${require('@/assets/ring.jpg')})` }" >
-    <div class="absolute inset-0 bg-white/40 backdrop-blur-sm"></div>
+    <div class="absolute inset-0 bg-black/60 backdrop-blur-sm"></div>
 
     <div class="relative max-w-4xl mx-auto py-10 px-4">
       <h1 class="text-4xl font-extrabold mb-10 text-center text-gray-900 drop-shadow">
@@ -170,10 +170,15 @@ export default {
 };
 </script>
 <style scoped>
-.input-field {
-  border: 1px solid #ccc;
+.input-dark {
+  border: 1px solid #666;
+  background-color: rgba(30, 30, 30, 0.8);
+  color: #fff;
   padding: 0.6rem;
   border-radius: 0.5rem;
+}
+.input-dark::placeholder {
+  color: #bbb;
 }
 .fade-enter-active,
 .fade-leave-active {
