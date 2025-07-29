@@ -233,14 +233,27 @@ export default {
 }
 
 .checkbox-row {
-  display: flex;
+  display: inline-flex;
   align-items: center;
   gap: 0.5rem;
+  background: rgba(255,255,255,0.1);
+  padding: 0.4rem 0.8rem;
+  border-radius: 8px;
+  width: fit-content;
   margin-bottom: 1rem;
+}
+
+.checkbox-row input[type="checkbox"] {
+  width: 18px;
+  height: 18px;
+  accent-color: #e53935; 
+  cursor: pointer;
 }
 
 .checkbox-row label {
   font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
 }
 
 .form-buttons {
