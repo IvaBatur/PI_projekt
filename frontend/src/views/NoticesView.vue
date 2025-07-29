@@ -4,36 +4,38 @@
       <div class="content-box">
         <h2 class="title">📢 Obavijesti</h2>
 
-      
         <form
           v-if="userRole === 'coach'"
           @submit.prevent="dodajIliUrediObavijest"
-          class="notice-form"  >
+          class="notice-form" >
           <input
             v-model="novaObavijest.naslov"
             placeholder="Naslov obavijesti"
-            required  />
+            required />
           <textarea
             v-model="novaObavijest.sadrzaj"
             placeholder="Sadržaj obavijesti"
             required ></textarea>
 
-          <label class="checkbox">
-            <input type="checkbox" v-model="novaObavijest.javno" />
-            Javno
-          </label>
+          <div class="checkbox-row">
+            <input type="checkbox" id="javno" v-model="novaObavijest.javno" />
+            <label for="javno">Javno</label>
+          </div>
 
           <div class="form-buttons">
             <button type="submit">
               {{ uredujeId ? 'Spremi promjene' : 'Objavi' }}
             </button>
-            <button v-if="uredujeId" type="button" @click="resetForma" class="cancel">
+            <button
+              v-if="uredujeId"
+              type="button"
+              @click="resetForma"
+              class="cancel" >
               Odustani
             </button>
           </div>
         </form>
 
-  
         <div v-if="obavijesti.length" class="notices-list">
           <div
             v-for="obavijest in filtriraneObavijesti"
@@ -101,7 +103,7 @@ export default {
     async dodajIliUrediObavijest() {
       try {
         if (this.uredujeId) {
-      
+        
           const res = await fetch(
             `https://backend-lrvc.onrender.com/api/notices/${this.uredujeId}`,
             {
@@ -160,11 +162,8 @@ export default {
     },
 
     urediObavijest(obavijest) {
-      this.novaObavijest = {
-        naslov: obavijest.naslov,
-        sadrzaj: obavijest.sadrzaj,
-        javno: obavijest.javno,
-      };
+    
+      this.novaObavijest = Object.assign({}, obavijest);
       this.uredujeId = obavijest._id;
     },
 
@@ -181,7 +180,6 @@ export default {
 </script>
 
 <style scoped>
-
 .notices-container {
   background: url('@/assets/pozadina.jpg') no-repeat center center fixed;
   background-size: cover;
@@ -203,13 +201,12 @@ export default {
 
 .content-box {
   backdrop-filter: blur(12px);
-  background: rgba(255, 255, 255, 0.15);
+  background: rgba(0, 0, 0, 0.7);
   padding: 2rem;
   border-radius: 16px;
   color: white;
   width: 95%;
   max-width: 900px;
-  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.4);
 }
 
 .title {
@@ -227,6 +224,7 @@ export default {
   border: none;
   margin-bottom: 1rem;
   font-size: 1rem;
+  color: black;
 }
 
 .notice-form textarea {
@@ -234,11 +232,15 @@ export default {
   resize: vertical;
 }
 
-.checkbox {
+.checkbox-row {
   display: flex;
   align-items: center;
   gap: 0.5rem;
   margin-bottom: 1rem;
+}
+
+.checkbox-row label {
+  font-size: 1rem;
 }
 
 .form-buttons {
@@ -252,15 +254,11 @@ export default {
   border-radius: 8px;
   cursor: pointer;
   font-size: 1rem;
-  transition: background 0.3s ease;
-}
-
-.form-buttons button:hover {
-  opacity: 0.9;
 }
 
 .form-buttons .cancel {
   background: #777;
+  color: white;
 }
 
 .form-buttons button:not(.cancel) {
@@ -273,17 +271,11 @@ export default {
 }
 
 .notice-card {
-  background: rgba(255, 255, 255, 0.2);
+  background: rgba(255, 255, 255, 0.1);
   border-radius: 12px;
   padding: 1.5rem;
   margin-bottom: 1rem;
   color: white;
-  transition: transform 0.3s ease, background 0.3s ease;
-}
-
-.notice-card:hover {
-  transform: scale(1.02);
-  background: rgba(255, 255, 255, 0.3);
 }
 
 .notice-card h3 {
@@ -293,7 +285,7 @@ export default {
 
 .notice-card .date {
   font-size: 0.9rem;
-  color: #ddd;
+  color: #ccc;
   margin-bottom: 0.8rem;
 }
 
@@ -322,12 +314,5 @@ export default {
 .actions .delete {
   background: #d32f2f;
   color: white;
-}
-
-.no-notices {
-  font-size: 1.2rem;
-  text-align: center;
-  margin-top: 2rem;
-  color: #ddd;
 }
 </style>
