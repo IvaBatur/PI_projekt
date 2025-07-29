@@ -141,114 +141,172 @@ export default {
 
 <style scoped>
 .coach-container {
-  max-width: 1200px;
-  margin: auto;
-  padding: 2rem;
-  text-align: center;
-  background: linear-gradient(to bottom, #b7acac, #fff);
   min-height: 100vh;
+  background: url('/pozadina.jpg') center/cover fixed no-repeat;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 3rem 1rem;
 }
+
+.coach-container::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: -1;
+}
+
 h1 {
   font-size: 3rem;
-  color: #b80000;
-}
-.subtitle {
-  font-size: 1.2rem;
-  color: #444;
-}
-.add-coach-form {
-  background: #fff;
-  padding: 1rem;
-  margin: 2rem auto;
-  max-width: 500px;
-  border-radius: 8px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-}
-.form-group input {
-  margin: 0.2rem 0;
-  width: 100%;
-  padding: 0.4rem;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-}
-.submit-btn {
-  margin-top: 0.5rem;
-  background: #b80000;
   color: #fff;
+  text-shadow: 2px 2px 5px rgba(0,0,0,0.7);
+  margin-bottom: 0.5rem;
+}
+
+.subtitle {
+  font-size: 1.3rem;
+  color: #eee;
+  margin-bottom: 2rem;
+}
+
+.add-coach-form {
+  background: rgba(255,255,255,0.9);
+  padding: 1.5rem;
+  border-radius: 12px;
+  margin-bottom: 2rem;
+  max-width: 500px;
+  width: 100%;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+}
+
+.form-group input {
+  margin: 0.4rem 0;
+  width: 100%;
+  padding: 0.6rem;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 1rem;
+}
+
+.submit-btn {
+  margin-top: 1rem;
+  background: #d32f2f;
+  color: white;
   border: none;
-  padding: 0.5rem 1rem;
-  border-radius: 4px;
+  padding: 0.7rem 1.5rem;
+  border-radius: 8px;
   cursor: pointer;
+  transition: background 0.3s ease;
 }
+
 .submit-btn:hover {
-  background: #900000;
+  background: #b71c1c;
 }
+
 .error-msg {
   color: red;
-  margin: 0.5rem 0;
+  font-weight: bold;
 }
+
 .coach-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-  gap: 1.5rem;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 2rem;
+  width: 100%;
+  max-width: 1200px;
 }
+
 .coach-card {
-  background: #fff;
-  border-radius: 12px;
+  background: rgba(255,255,255,0.9);
+  border-radius: 15px;
   padding: 1rem;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
   transition: transform 0.3s ease, box-shadow 0.3s ease;
+  text-align: center;
+}
+
+.coach-card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
 }
 
 .coach-card img {
   width: 100%;
-  height: 180px;
+  height: 200px;
   object-fit: cover;
-  border-radius: 4px;
+  border-radius: 10px;
+  filter: grayscale(30%);
+  transition: filter 0.3s ease;
 }
+
+.coach-card:hover img {
+  filter: grayscale(0%);
+}
+
 .coach-card h3 {
-  margin: 0.5rem 0;
-  color: #333;
+  font-size: 1.3rem;
+  margin-top: 0.8rem;
+  color: #222;
 }
+
 .coach-card p {
-  font-size: 0.9rem;
-  color: #555;
+  font-size: 0.95rem;
+  color: #333;
+  margin: 0.5rem 0 1rem;
 }
+
 .contact-btn,
 .delete-btn {
-  background: #b80000;
-  color: white;
+  background: #d32f2f;
+  color: #fff;
   border: none;
-  margin: 0.2rem;
-  padding: 0.3rem 0.6rem;
-  border-radius: 4px;
+  margin: 0.3rem;
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
   cursor: pointer;
+  font-weight: bold;
+  transition: background 0.3s ease;
 }
+
 .contact-btn:hover,
 .delete-btn:hover {
-  background: #900000;
-}
-.close-btn {
-  margin-top: 1rem;
-  background: #900000;
-  color: white;
-  border: none;
-  padding: 0.3rem 0.8rem;
-  border-radius: 10px;
-  cursor: pointer;
+  background: #b71c1c;
 }
 
 .modal-overlay {
   position: fixed;
   inset: 0;
-  background: rgba(0, 0, 0, 0.5);
+  background: rgba(0,0,0,0.6);
   display: flex;
   justify-content: center;
   align-items: center;
 }
 .modal {
   background: white;
-  padding: 1rem;
-  border-radius: 8px;
+  padding: 2rem;
+  border-radius: 15px;
+  max-width: 400px;
+  width: 90%;
+  text-align: center;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.3);
 }
+
+.close-btn {
+  margin-top: 1rem;
+  background: #d32f2f;
+  color: white;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.close-btn:hover {
+  background: #b71c1c;
+}
+
 </style>
