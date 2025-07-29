@@ -1,6 +1,6 @@
 <template>
   <div class="members-page min-h-screen bg-cover bg-center flex items-center justify-center"
-       :style="{ backgroundImage: `url(@/assets/ring.jpg)` }">
+      :style="{ backgroundImage: `url('./assets/ring.jpg')` }">
     <div class="w-full max-w-6xl bg-black/60 backdrop-blur-xl rounded-xl shadow-2xl p-10 text-white animate-fadeIn">
       
       <h2 class="text-4xl font-extrabold text-center mb-10 text-red-500 drop-shadow-lg">
@@ -138,6 +138,13 @@ export default {
 </script>
 
 <style scoped>
+  .members-page {
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  min-height: 100vh; 
+}
+  
 .input-field {
   border: 2px solid #4a4a4a;
   padding: 0.75rem;
@@ -166,6 +173,15 @@ th {
 }
 
 tr:hover {
-  background-color: #444;
+  background-color: #555;
+ transition: background-color 0.3s ease-in-out;
+}
+  button {
+  border-radius: 5px;
+  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2);
+  transition: transform 0.3s ease-in-out;
+}
+button:hover {
+  transform: scale(1.05);
 }
 </style>
