@@ -1,8 +1,7 @@
 <template>
   <div
     class="min-h-screen bg-cover bg-center relative"
-    :style="{ backgroundImage: `url(${require('@/assets/ring.jpg')})` }" >
-    <div class="absolute inset-0 bg-black/60 backdrop-blur-sm"></div>
+    :style="{ backgroundImage: `url(${require('@/assets/pozadina.jpg')})` }" >
 
     <div class="relative max-w-4xl mx-auto py-10 px-4">
       <h1 class="text-4xl font-extrabold mb-10 text-center text-gray-900 drop-shadow">
