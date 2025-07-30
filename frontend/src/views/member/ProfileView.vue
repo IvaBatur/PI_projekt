@@ -79,6 +79,13 @@ export default {
 </script>
 
 <style scoped>
+.bg-custom {
+  background-image: url('@/assets/pozadina.jpg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+}
 
 .grid > div {
   transition: transform 0.2s ease, box-shadow 0.2s ease;
@@ -87,3 +94,4 @@ export default {
   transform: translateY(-2px);
 }
 </style>
+
