@@ -80,7 +80,7 @@ export default {
 
 <style scoped>
 .bg-custom {
-  background-image: url('@/assets/pozadina.jpg');
+  background-image: url('@/assets/pozadina1.jpg');
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
