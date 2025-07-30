@@ -1,9 +1,9 @@
 <template>
-  <div class="min-h-screen bg-gradient-to-br from-gray-100 to-gray-200 py-10">
+  <div class="min-h-screen py-10 bg-custom">
     <div class="max-w-3xl mx-auto bg-white rounded-2xl shadow-lg p-8">
       
    
-      <div class="flex flex-col items-center mb-8">
+      <div class="flex flex-col items-center mb-10">
         <div class="w-24 h-24 rounded-full bg-red-600 text-white flex items-center justify-center text-3xl font-bold shadow">
           {{ profil ? profil.ime.charAt(0) : '?' }}
         </div>
@@ -13,9 +13,9 @@
 
       
       <div v-if="profil" class="grid grid-cols-1 sm:grid-cols-2 gap-6">
-        <div v-for="(value, label) in podaci" :key="label" class="p-5 rounded-lg bg-gray-50 border hover:shadow transition">
-          <p class="text-sm text-gray-500">{{ label }}</p>
-          <p class="text-lg font-semibold text-gray-800">{{ value }}</p>
+       <div v-for="(value, label) in podaci" :key="label" class="p-5 rounded-lg bg-blue-50 border border-blue-200 hover:shadow-lg transition">
+          <p class="text-sm text-blue-600">{{ label }}</p>
+          <p class="text-lg font-semibold text-gray-900">{{ value }}</p>
         </div>
       </div>
 
