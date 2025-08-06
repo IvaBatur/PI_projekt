@@ -135,7 +135,7 @@ async mounted() {
   localStorage.removeItem("role");
   localStorage.removeItem("email");
   this.$store.commit("auth/SET_ROLE", null);
-  this.$router.push("/guest/about");
+  this.$router.push("/");
   }
 }
 </script>
