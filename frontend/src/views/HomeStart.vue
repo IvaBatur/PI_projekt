@@ -37,9 +37,9 @@
             <span class="icon">{{ item.emoji }}</span>
             <span class="label">{{ item.label }}</span>
           </router-link>
+          </div>
         </div>
-      </div>
-   </div>
+     </div>
   </div>
 </template>
 
