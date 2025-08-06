@@ -7,8 +7,7 @@
   :noticeKey="popupObavijest._id"
   :duration="8000"
   @closed="zatvoriPopup"
-  @clicked="idiNaObavijesti"
-/>
+  @clicked="idiNaObavijesti" />
 
 
     <div class="overlay">
@@ -25,16 +24,21 @@
 
       <div class="menu-box">
         <div
+          
           class="menu-item"
           v-for="item in prikazaniLinkovi"
-          :key="item.label"
-        >
+          :key="item.label">
+
+          
           <router-link :to="item.path">
             <div class="icon">{{ item.emoji }}</div>
             <div class="label">{{ item.label }}</div>
           </router-link>
         </div>
       </div>
+      <div v-if="userRole === 'coach' || userRole === 'member'" class="logout-box">
+  <button @click="logout" class="logout-btn">Odjavi se</button>
+</div>
     </div>
   </div>
 </template>
@@ -125,9 +129,15 @@ async mounted() {
     idiNaObavijesti() {
       const role = localStorage.getItem("role") || "member";
       this.$router.push(`/${role}/notices`);
-    }
+},
+  logout() {
+  localStorage.removeItem("token");
+  localStorage.removeItem("role");
+  localStorage.removeItem("email");
+  this.$store.commit("auth/SET_ROLE", null);
+  this.$router.push("/guest/about");
   }
-};
+}
 </script>
 
 
@@ -216,4 +226,24 @@ async mounted() {
   color: white;
   text-decoration: none;
 }
+  .logout-box {
+  margin-top: 2rem;
+  text-align: center;
+}
+
+.logout-btn {
+  background-color: #ff4d4d;
+  color: white;
+  border: none;
+  padding: 0.7rem 1.5rem;
+  border-radius: 8px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.logout-btn:hover {
+  background-color: #e60000;
+}
+
 </style>
