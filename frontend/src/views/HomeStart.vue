@@ -8,6 +8,14 @@
       @closed="zatvoriPopup"
       @clicked="idiNaObavijesti" />
 
+       <button
+  v-if="userRole === 'coach' || userRole === 'member'"
+  @click="logout"
+  class="logout-btn"
+>
+  Odjavi se
+</button>
+
     <div class="overlay">
       <h1 class="app-title">3,2,1 BOX</h1>
       <h2 class="slogan">
@@ -32,14 +40,6 @@
         </div>
       </div>
 
-
-  <div class="home-wrapper">
-    <button
-      v-if="userRole === 'coach' || userRole === 'member'"
-      @click="logout"
-      class="logout-btn-fixed" >  Odjavi se </button>
-      </div>
-    </div>
   </div>
 </template>
 
@@ -130,12 +130,14 @@ export default {
       this.$router.push(`/${role}/notices`);
     },
 
-    logout() {
-      this.$store.dispatch("auth/logout");
-      this.$router.push("/login");
-    }
-  }
-};
+logout() {
+  this.$store.dispatch("auth/logout").then(() => {
+    localStorage.clear(); 
+    setTimeout(() => {
+      this.$router.replace("/login");
+    }, 100); 
+  });
+}
 </script>
 
 <style scoped>
