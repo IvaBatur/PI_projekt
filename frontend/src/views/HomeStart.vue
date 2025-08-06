@@ -1,14 +1,12 @@
 <template>
   <div class="home-wrapper">
-   
-<NotificationPopup
-  v-if="showPopup && popupObavijest"
-  :message="popupObavijest.naslov + ': ' + popupObavijest.sadrzaj"
-  :noticeKey="popupObavijest._id"
-  :duration="8000"
-  @closed="zatvoriPopup"
-  @clicked="idiNaObavijesti" />
-
+    <NotificationPopup
+      v-if="showPopup && popupObavijest"
+      :message="popupObavijest.naslov + ': ' + popupObavijest.sadrzaj"
+      :noticeKey="popupObavijest._id"
+      :duration="8000"
+      @closed="zatvoriPopup"
+      @clicked="idiNaObavijesti" />
 
     <div class="overlay">
       <h1 class="app-title">3,2,1 BOX</h1>
@@ -24,21 +22,20 @@
 
       <div class="menu-box">
         <div
-          
           class="menu-item"
           v-for="item in prikazaniLinkovi"
-          :key="item.label">
-
-          
+          :key="item.label" >
           <router-link :to="item.path">
-            <div class="icon">{{ item.emoji }}</div>
-            <div class="label">{{ item.label }}</div>
+            <span class="icon">{{ item.emoji }}</span>
+            <span class="label">{{ item.label }}</span>
           </router-link>
         </div>
       </div>
+
+
       <div v-if="userRole === 'coach' || userRole === 'member'" class="logout-box">
-  <button @click="logout" class="logout-btn">Odjavi se</button>
-</div>
+        <button @click="logout" class="logout-btn">Odjavi se</button>
+      </div>
     </div>
   </div>
 </template>
@@ -56,7 +53,7 @@ export default {
     return {
       showPopup: false,
       popupObavijest: null,
-      vecVidio: JSON.parse(localStorage.getItem("popupSeenIds") || "[]")
+      vecVidio: JSON.parse(localStorage.getItem("popupSeenIds") || "[]"),
     };
   },
   computed: {
@@ -91,7 +88,7 @@ export default {
       }
     },
   },
-async mounted() {
+  async mounted() {
     if (this.userRole === "coach") return;
 
     try {
@@ -113,33 +110,30 @@ async mounted() {
       console.error("Greška kod dohvaćanja obavijesti iz backenda:", err);
     }
   },
-
   methods: {
     zatvoriPopup() {
-  if (this.popupObavijest && this.popupObavijest._id) {
-    let vecVidio = JSON.parse(localStorage.getItem("popupSeenIds") || "[]");
-    if (!vecVidio.includes(this.popupObavijest._id)) {
-      vecVidio.push(this.popupObavijest._id);
-      localStorage.setItem("popupSeenIds", JSON.stringify(vecVidio));
-    }
-  }
-  this.showPopup = false;
-},
+      if (this.popupObavijest && this.popupObavijest._id) {
+        let vecVidio = JSON.parse(localStorage.getItem("popupSeenIds") || "[]");
+        if (!vecVidio.includes(this.popupObavijest._id)) {
+          vecVidio.push(this.popupObavijest._id);
+          localStorage.setItem("popupSeenIds", JSON.stringify(vecVidio));
+        }
+      }
+      this.showPopup = false;
+    },
 
     idiNaObavijesti() {
-      const role = localStorage.getItem("role") || "member";
+      const role = this.userRole || "member";
       this.$router.push(`/${role}/notices`);
-},
-  logout() {
-  localStorage.removeItem("token");
-  localStorage.removeItem("role");
-  localStorage.removeItem("email");
-  this.$store.commit("auth/SET_ROLE", null);
-  this.$router.push("/");
-  }
-}
-</script>
+    },
 
+    logout() {
+      this.$store.dispatch("auth/logout");
+      this.$router.push("/login");
+    }
+  }
+};
+</script>
 
 <style scoped>
 .home-wrapper {
@@ -197,6 +191,7 @@ async mounted() {
     background-color 0.3s ease;
   cursor: pointer;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+  text-align: center;
 }
 
 .menu-item:hover {
@@ -225,25 +220,28 @@ async mounted() {
 .menu-item a {
   color: white;
   text-decoration: none;
+  display: inline-block;
+  width: 100%;
+  height: 100%;
 }
-  .logout-box {
+
+.logout-box {
   margin-top: 2rem;
   text-align: center;
 }
 
 .logout-btn {
-  background-color: #ff4d4d;
+  background-color: #c0392b;
   color: white;
   border: none;
-  padding: 0.7rem 1.5rem;
-  border-radius: 8px;
+  padding: 0.8rem 1.5rem;
+  border-radius: 10px;
   font-size: 1rem;
   cursor: pointer;
   transition: background-color 0.3s ease;
 }
 
 .logout-btn:hover {
-  background-color: #e60000;
+  background-color: #e74c3c;
 }
-
 </style>
