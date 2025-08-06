@@ -138,6 +138,7 @@ logout() {
     }, 100); 
   });
 }
+}
 </script>
 
 <style scoped>
