@@ -8,13 +8,13 @@
       @closed="zatvoriPopup"
       @clicked="idiNaObavijesti" />
 
-       <button
-  v-if="userRole === 'coach' || userRole === 'member'"
-  @click="logout"
-  class="logout-btn"
->
-  Odjavi se
-</button>
+    <button
+      v-if="userRole === 'coach' || userRole === 'member'"
+      @click="logout"
+      class="logout-btn"
+    >
+      Odjavi se
+    </button>
 
     <div class="overlay">
       <h1 class="app-title">3,2,1 BOX</h1>
@@ -37,9 +37,9 @@
             <span class="icon">{{ item.emoji }}</span>
             <span class="label">{{ item.label }}</span>
           </router-link>
-          </div>
         </div>
-     </div>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -56,7 +56,7 @@ export default {
     return {
       showPopup: false,
       popupObavijest: null,
-      vecVidio: JSON.parse(localStorage.getItem("popupSeenIds") || "[]"),
+      vecVidio: [], 
     };
   },
   computed: {
@@ -92,6 +92,8 @@ export default {
     },
   },
   async mounted() {
+    this.vecVidio = JSON.parse(localStorage.getItem("popupSeenIds") || "[]");
+
     if (this.userRole === "coach") return;
 
     try {
@@ -99,10 +101,8 @@ export default {
       if (!res.ok) throw new Error("Greška pri dohvaćanju obavijesti");
       const obavijesti = await res.json();
 
-      const vecVidio = JSON.parse(localStorage.getItem("popupSeenIds") || "[]");
-
       const nova = obavijesti.find(
-        (o) => o.javno && !vecVidio.includes(o._id)
+        (o) => o.javno && !this.vecVidio.includes(o._id)
       );
 
       if (nova) {
@@ -130,15 +130,16 @@ export default {
       this.$router.push(`/${role}/notices`);
     },
 
-logout() {
-  this.$store.dispatch("auth/logout").then(() => {
-    localStorage.clear(); 
-    setTimeout(() => {
-      this.$router.replace("/login");
-    }, 100); 
-  });
-}
-}
+    logout() {
+      this.$store.dispatch("auth/logout").then(() => {
+        localStorage.clear();
+        setTimeout(() => {
+          this.$router.replace("/login");
+        }, 100);
+      });
+    },
+  },
+};
 </script>
 
 <style scoped>
@@ -229,11 +230,6 @@ logout() {
   display: inline-block;
   width: 100%;
   height: 100%;
-}
-
-.logout-box {
-  margin-top: 2rem;
-  text-align: center;
 }
 
 .logout-btn {
