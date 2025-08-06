@@ -33,8 +33,11 @@
       </div>
 
 
-      <div v-if="userRole === 'coach' || userRole === 'member'" class="logout-box">
-        <button @click="logout" class="logout-btn">Odjavi se</button>
+  <div class="home-wrapper">
+    <button
+      v-if="userRole === 'coach' || userRole === 'member'"
+      @click="logout"
+      class="logout-btn-fixed" >  Odjavi se </button>
       </div>
     </div>
   </div>
@@ -231,13 +234,17 @@ export default {
 }
 
 .logout-btn {
+  position: absolute;
+  top: 20px;
+  right: 30px;
   background-color: #c0392b;
   color: white;
   border: none;
-  padding: 0.8rem 1.5rem;
+  padding: 0.7rem 1.3rem;
   border-radius: 10px;
   font-size: 1rem;
   cursor: pointer;
+  z-index: 999;
   transition: background-color 0.3s ease;
 }
 
