@@ -132,10 +132,10 @@ const routes = [
     component: () => import('../views/member/ProfileView.vue'),
     meta: { requiresAuth: true, role: 'member' }
   },
-  {
-    path: '/:pathMatch(.*)*',
-    redirect: '/home'
-  }
+ {
+  path: '/:pathMatch(.*)*',
+  redirect: '/' 
+}
 ]
 
 const router = createRouter({
